@@ -5,12 +5,13 @@ $servidor = "localhost";
 $usuario  = "root";
 $senha    = "";
 $banco    = "projetointegrador";
+$porta    = 3307; // Porta personalizada do seu MySQL
 
-$conn = new mysqli($servidor, $usuario, $senha, $banco);
+$conn = new mysqli($servidor, $usuario, $senha, $banco, $porta);
 
 if ($conn->connect_error) {
     echo json_encode([
-        "mensagem" => "Erro ao conectar com o banco de dados."
+        "mensagem" => "Erro ao conectar com o banco de dados: " . $conn->connect_error
     ]);
     exit;
 }
