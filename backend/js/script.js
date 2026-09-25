@@ -1,7 +1,5 @@
 document.getElementById("formCadastro").addEventListener("submit", function(event) {
     event.preventDefault();
-
-    // Limpa pontos, hífens e parênteses antes de enviar
     const dados = {
         nome: document.getElementById("nome").value,
         email: document.getElementById("email").value,
