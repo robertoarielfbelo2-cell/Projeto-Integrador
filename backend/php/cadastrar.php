@@ -5,7 +5,7 @@ $servidor = "localhost";
 $usuario  = "root";
 $senha    = "";
 $banco    = "projetointegrador";
-$porta    = 3307; // Porta personalizada do seu MySQL
+$porta    = 3307;
 
 $conn = new mysqli($servidor, $usuario, $senha, $banco, $porta);
 
