@@ -1,14 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Cadastro de Vereador</title>
 </head>
 
 <body>
+    <form id="formVereadores" enctype="multipart/form-data">
+        <input type="text" id="nomeVereador" placeholder="Nome" required>
 
+        <label for="dataInicioMandato">Data de início do mandato</label>
+        <input type="date" id="dataInicioMandato" required>
+
+        <label for="dataFimDoMandato">Data do fim do mandato</label>
+        <input type="date" id="dataFimDoMandato" required>
+
+        <textarea id="descricao" placeholder="Descrição"></textarea>
+
+        <input type="file" id="fotoVereador" accept="image/*">
+
+        <select id="selecionarPartido" required>
+            <option value="">Partido do Parlamentar</option>
+        </select>
+
+        <button type="submit">ENVIAR</button>
+    </form>
+
+    <!-- Usando o caminho relativo a partir da pasta html -->
+    <script src="../../backend/js/scriptVereadores.js"></script>
 </body>
 
 </html>

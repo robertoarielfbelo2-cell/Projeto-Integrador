@@ -2,7 +2,6 @@
 header("Content-Type: application/json; charset=UTF-8");
 require_once 'conexao.php';
 
-// Lê o JSON bruto do corpo da requisição
 $dados = json_decode(file_get_contents("php://input"), true);
 
 $nome   = $dados["nome"] ?? '';
@@ -14,7 +13,6 @@ if (empty($nome) || empty($sigla) || empty($numero)) {
     exit;
 }
 
-// Consulta preparada
 $sql = "INSERT INTO partido (nome, sigla, numero) VALUES (?, ?, ?)";
 $stmt = $conn->prepare($sql);
 
