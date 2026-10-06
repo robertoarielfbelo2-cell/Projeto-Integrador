@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Indicação</title>
+</head>
+
+<body>
+    <h1>Nova Indicação</h1>
+
+    <a href="feedIndicacao.html">Voltar para as indicações</a>
+
+    <form id="formIndicacao" enctype="multipart/form-data">
+        <label for="titulo">Título</label>
+        <input type="text" id="titulo" name="titulo" maxlength="100" required>
+
+        <label for="descricao">Descrição</label>
+        <textarea id="descricao" name="descricao" maxlength="1000" required></textarea>
+
+        <h2>Localização</h2>
+
+        <label for="cep">CEP</label>
+        <input type="text" id="cep" name="cep" maxlength="9" placeholder="00000-000" required>
+
+        <label for="logradouro">Rua</label>
+        <input type="text" id="logradouro" name="logradouro">
+
+        <label for="numero">Número</label>
+        <input type="text" id="numero" name="numero">
+
+        <label for="bairro">Bairro</label>
+        <input type="text" id="bairro" name="bairro" required>
+
+        <label for="municipio">Município</label>
+        <input type="text" id="municipio" name="municipio" required>
+
+        <label for="fotoOuAnexo">Foto ou anexo (opcional)</label>
+        <input type="file" id="fotoOuAnexo" name="foto_ou_anexo" accept="image/*,.pdf">
+
+        <button type="submit">ENVIAR</button>
+    </form>
+
+    <p id="mensagem"></p>
+
+    <script src="../../backend/js/scriptCadastroIndicacao.js"></script>
+</body>
+
+</html>
