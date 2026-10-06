@@ -1,6 +1,35 @@
+function carregarPartidos() {
+    fetch('../../backend/php/listarPartidos.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro na resposta da rede: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(partidos => {
+            const selectPartido = document.getElementById('selecionarPartido');
+
+            // Limpa opções antigas mantendo a padrão
+            selectPartido.innerHTML = '<option value="">Partido do Parlamentar</option>';
+
+            partidos.forEach(partido => {
+                const option = document.createElement('option');
+                option.value = partido.id; // Corresponde ao "AS id" da sua SQL
+                option.textContent = `${partido.nome} (${partido.sigla})`;
+                selectPartido.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Erro ao carregar partidos:', error));
+}
+
+// Executa assim que o HTML carregar
+document.addEventListener('DOMContentLoaded', carregarPartidos);
+
+// Envio do formulário
 const formVereadores = document.getElementById('formVereadores');
 formVereadores.addEventListener('submit', function(event) {
     event.preventDefault();
+
     const nomeV = document.getElementById('nomeVereador').value;
     const inicioMandato = document.getElementById('dataInicioMandato').value;
     const fimMandato = document.getElementById('dataFimDoMandato').value;
@@ -17,7 +46,7 @@ formVereadores.addEventListener('submit', function(event) {
         partidoVereador: partidoVereador
     };
 
-    fetch('/trabalhoIntegrador/backend/php/cadastrarVereador.php', {
+    fetch('../../backend/php/cadastrarVereador.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
