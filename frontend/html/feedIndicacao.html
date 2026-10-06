@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indicações</title>
+</head>
+
+<body>
+    <h1>Indicações</h1>
+
+    <a href="cadastroIndicacao.html">Nova indicação</a>
+
+    <form id="formFiltro">
+        <label for="filtroStatus">Status</label>
+        <select id="filtroStatus" name="status">
+            <option value="">Todos</option>
+            <option value="Enviada">Enviada</option>
+            <option value="Em análise">Em análise</option>
+            <option value="Em execução">Em execução</option>
+            <option value="Concluída">Concluída</option>
+            <option value="Recusada">Recusada</option>
+            <option value="Cancelada">Cancelada</option>
+        </select>
+
+        <label for="filtroCep">CEP</label>
+        <input type="text" id="filtroCep" name="cep" maxlength="9">
+
+        <label for="filtroBairro">Bairro</label>
+        <input type="text" id="filtroBairro" name="bairro">
+
+        <label for="filtroMunicipio">Município</label>
+        <input type="text" id="filtroMunicipio" name="municipio">
+
+        <button type="submit">FILTRAR</button>
+    </form>
+
+    <!-- O JS preenche esta lista com um <article> por indicação -->
+    <section id="listaIndicacoes">
+        <!--
+        Modelo de um item:
+        <article>
+            <h2>Título da indicação</h2>
+            <p>Status: Enviada</p>
+            <p>Bairro - Município (CEP)</p>
+            <p>Descrição...</p>
+            <img src="..." alt="Foto da indicação">
+            <p>Cadastrada em: 06/10/2026</p>
+            <p>Apoios: 0</p>
+        </article>
+        -->
+    </section>
+
+    <p id="mensagem"></p>
+
+    <script src="../../backend/js/scriptFeedIndicacao.js"></script>
+</body>
+
+</html>
