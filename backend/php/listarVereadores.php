@@ -2,7 +2,7 @@
 header("Content-Type: application/json; charset=UTF-8");
 require_once 'conexao.php';
 
-$sql = "SELECT v.id_vereador AS id, TRIM(v.nome_parlamentar) AS nome, v.descricao, v.foto, p,sigla FROM vereaador v JOIN partido p ON p.id_partido = v.id_partido ORDER BY TRIM(v.nome_parlamentar) ASC";
+$sql = "SELECT v.id_vereador AS id, TRIM(v.nome_parlamentar) AS nome, v.descricao, v.foto, p.sigla FROM vereador v JOIN partido p ON p.id_partido = v.id_partido ORDER BY TRIM(v.nome_parlamentar) ASC";
 
 $result = $conn->query($sql);
 

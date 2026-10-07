@@ -8,8 +8,6 @@ function carregarPartidos() {
         })
         .then(partidos => {
             const selectPartido = document.getElementById('selecionarPartido');
-
-            // Limpa opções antigas mantendo a padrão
             selectPartido.innerHTML = '<option value="">Partido do Parlamentar</option>';
 
             partidos.forEach(partido => {
@@ -21,11 +19,7 @@ function carregarPartidos() {
         })
         .catch(error => console.error('Erro ao carregar partidos:', error));
 }
-
-// Executa assim que o HTML carregar
 document.addEventListener('DOMContentLoaded', carregarPartidos);
-
-// Envio do formulário
 const formVereadores = document.getElementById('formVereadores');
 formVereadores.addEventListener('submit', function(event) {
     event.preventDefault();
