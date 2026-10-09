@@ -167,6 +167,17 @@ CREATE TABLE `status_indicacao` (
   `descricao` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Despejando dados para a tabela `status_indicacao`
+--
+
+INSERT INTO `status_indicacao` (`id_status`, `nome_do_status`, `descricao`) VALUES
+(1, 'Em analise', NULL),
+(2, 'Em andamento', NULL),
+(3, 'Aprovado', NULL),
+(4, 'Recusado', NULL),
+(5, 'Arquivado', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -345,7 +356,7 @@ ALTER TABLE `partido`
 -- AUTO_INCREMENT de tabela `status_indicacao`
 --
 ALTER TABLE `status_indicacao`
-  MODIFY `id_status` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_status` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `vereador`
