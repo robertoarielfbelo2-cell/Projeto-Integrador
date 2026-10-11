@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Vereador | Vox Populis</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Vox Populis</h1>
+        <p>Plataforma de participação cidadã</p>
+
+        <nav aria-label="Navegação principal">
+            <a href="index.html">Início</a>
+            <a href="vereadores.html">Vereadores</a>
+        </nav>
+    </header>
+
+    <main>
+        <section aria-labelledby="tituloCadastroVereador">
+
+            <h2 id="tituloCadastroVereador">
+                Cadastrar Vereador
+            </h2>
+
+            <p>
+                Preencha os dados abaixo para cadastrar
+                um vereador na plataforma.
+            </p>
+
+            <form id="formVereadores" method="post">
+
+                <label for="nomeVereador">
+                    Nome parlamentar:
+                </label>
+                <input
+                    type="text"
+                    id="nomeVereador"
+                    name="nome_parlamentar"
+                    maxlength="100"
+                    required
+                >
+
+                <label for="dataInicioMandato">
+                    Data de início do mandato:
+                </label>
+                <input
+                    type="date"
+                    id="dataInicioMandato"
+                    name="data_inicio_mandato"
+                    required
+                >
+
+                <label for="dataFimDoMandato">
+                    Data de término do mandato:
+                </label>
+                <input
+                    type="date"
+                    id="dataFimDoMandato"
+                    name="data_termino_mandato"
+                    required
+                >
+
+                <label for="descricao">
+                    Descrição:
+                </label>
+                <textarea
+                    id="descricao"
+                    name="descricao"
+                    rows="5"
+                ></textarea>
+
+                <label for="fotoVereador">
+                    URL da fotografia:
+                </label>
+                <input
+                    type="url"
+                    id="fotoVereador"
+                    name="foto"
+                    placeholder="https://exemplo.com/foto.jpg"
+                >
+
+                <label for="selecionarPartido">
+                    Partido político:
+                </label>
+                <select
+                    id="selecionarPartido"
+                    name="id_partido"
+                    required
+                >
+                    <option value="">
+                        Selecione um partido
+                    </option>
+                </select>
+
+                <button type="submit">
+                    Cadastrar vereador
+                </button>
+
+            </form>
+
+            <p id="mensagem" role="status"></p>
+
+        </section>
+    </main>
+
+    <footer>
+        <p>Vox Populis - Plataforma de participação cidadã.</p>
+    </footer>
+
+    <script src="../js/scriptVereadores.js"></script>
+
+</body>
+</html>

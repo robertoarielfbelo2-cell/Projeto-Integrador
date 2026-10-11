@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Painel Administrativo - Vox Populis</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <div id="conteudoAdmin" hidden>
+
+        <header>
+
+            <h1>Vox Populis</h1>
+            <h2>Painel Administrativo</h2>
+
+            <p>
+                Bem-vindo,
+                <strong id="nomeAdministrador"></strong>
+            </p>
+
+            <button id="botaoSair" type="button">
+                Sair
+            </button>
+
+        </header>
+
+        <main>
+
+            <section>
+                <h2>Gerenciamento do Sistema</h2>
+
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="addVereador.html">
+                                Cadastrar Vereador
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="addPartido.html">
+                                Cadastrar Partido
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="index.html">
+                                Visualizar Site
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </section>
+
+            <section>
+
+                <h2>Indicações Recebidas</h2>
+
+                <p>
+                    Aqui serão exibidas as indicações
+                    cadastradas pelos cidadãos.
+                </p>
+
+                <div id="listaIndicacoesAdmin">
+                    <p>Carregando indicações...</p>
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <p id="mensagemAdmin">Verificando acesso administrativo...</p>
+
+    <script src="../js/scriptPainelAdmin.js"></script>
+
+</body>
+</html>

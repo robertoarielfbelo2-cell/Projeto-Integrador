@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indicações | Vox Populis</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Vox Populis</h1>
+        <p>Plataforma de participação cidadã</p>
+
+        <nav aria-label="Navegação principal">
+            <a href="index.html">Início</a>
+            <a href="vereadores.html">Vereadores</a>
+
+            <span id="linksVisitante">
+                <a href="login.html">Entrar</a>
+                <a href="cadastro.html">Cadastrar-se</a>
+            </span>
+
+            <span id="areaCidadao" hidden>
+                <span id="nomeCidadao"></span>
+                <button type="button" id="botaoSair">Sair</button>
+            </span>
+        </nav>
+    </header>
+
+    <main>
+
+        <section aria-labelledby="tituloPrincipal">
+            <h2 id="tituloPrincipal">Indicações da comunidade</h2>
+
+            <p>Conheça as propostas enviadas pelos cidadãos.</p>
+
+            <a href="cadastroIndicacao.html" id="novaIndicacao">
+                Nova indicação
+            </a>
+        </section>
+
+        <section class="filtros" id="filtros"
+                 aria-labelledby="tituloFiltros">
+
+            <h2 id="tituloFiltros">Filtrar indicações</h2>
+
+            <form id="formFiltro">
+
+                <label for="filtroStatus">Status</label>
+                    <select id="filtroStatus" name="status">
+                    <option value="">Todos</option>
+                    <option value="Enviada">Enviada</option>
+                    <option value="Em análise">Em análise</option>
+                    <option value="Aprovada">Aprovada</option>
+                    <option value="Em execução">Em execução</option>
+                    <option value="Concluída">Concluída</option>
+                    <option value="Recusada">Recusada</option>
+                </select>
+
+                <label for="filtroCep">CEP</label>
+                <input
+                    type="text"
+                    id="filtroCep"
+                    name="cep"
+                    maxlength="9"
+                    inputmode="numeric"
+                    placeholder="00000-000"
+                >
+
+                <label for="filtroBairro">Bairro</label>
+                <input
+                    type="text"
+                    id="filtroBairro"
+                    name="bairro"
+                >
+
+                <label for="filtroMunicipio">Município</label>
+                <input
+                    type="text"
+                    id="filtroMunicipio"
+                    name="municipio"
+                >
+
+                <button type="submit">Filtrar</button>
+            </form>
+        </section>
+
+        <section aria-labelledby="tituloIndicacoes">
+
+            <h2 id="tituloIndicacoes">Indicações recentes</h2>
+
+            <div id="listaIndicacoes">
+                <!-- O JavaScript adicionará as indicações aqui -->
+            </div>
+
+        </section>
+
+        <p id="mensagem" role="status"></p>
+
+    </main>
+
+    <footer>
+        <p>Vox Populis - Plataforma de participação cidadã.</p>
+    </footer>
+
+    <script src="../js/scriptIndex.js"></script>
+
+</body>
+</html>
