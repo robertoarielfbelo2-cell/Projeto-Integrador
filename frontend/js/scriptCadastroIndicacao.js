@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Cadastro realizado com sucesso
             mensagem.textContent =
-                'Indicação cadastrada com sucesso!';
+                resultado.mensagem || 'Indicação cadastrada com sucesso!';
 
             // Limpa os campos do formulário
             formIndicacao.reset();
