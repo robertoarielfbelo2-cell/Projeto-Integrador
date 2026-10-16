@@ -26,50 +26,48 @@
 
             <a href="index.html">Voltar para as indicações</a>
 
-            <form id="formIndicacao" method="post"
-                  enctype="multipart/form-data">
+            <form id="formIndicacao" method="post" enctype="multipart/form-data">
 
                 <fieldset>
                     <legend>Informações da indicação</legend>
 
                     <label for="titulo">Título:</label>
-                    <input type="text" id="titulo" name="titulo"
-                           maxlength="100" required>
+                    <input type="text" id="titulo" name="titulo" maxlength="100" required>
 
                     <label for="descricao">Descrição:</label>
-                    <textarea id="descricao" name="descricao"
-                              maxlength="1000" required></textarea>
+                    <textarea id="descricao" name="descricao" maxlength="1000" required></textarea>
+
+                    <label for="vereador">Encaminhar para o vereador (opcional):</label>
+                    <select id="vereador" name="id_vereador">
+                        <option value="">Nenhum vereador específico</option>
+                    </select>
+
                 </fieldset>
 
                 <fieldset>
                     <legend>Localização</legend>
 
                     <label for="cep">CEP:</label>
-                    <input type="text" id="cep" name="cep"
-                           maxlength="9" inputmode="numeric"
-                           placeholder="00000-000" required>
+                    <input type="text" id="cep" name="cep" maxlength="9" inputmode="numeric" placeholder="00000-000"
+                        required>
 
                     <label for="logradouro">Rua:</label>
                     <input type="text" id="logradouro" name="logradouro" maxlenght="150">
 
                     <label for="numero">Número:</label>
-                    <input type="text" id="numero" name="numero" maxlenght="50"
-                        placeholder="Ex.: 150 ou S/N" required>
+                    <input type="text" id="numero" name="numero" maxlenght="50" placeholder="Ex.: 150 ou S/N" required>
 
                     <label for="bairro">Bairro:</label>
                     <input type="text" id="bairro" name="bairro" maxlenght="100" required>
 
                     <label for="municipio">Município:</label>
-                    <input type="text" id="municipio" maxlenght="100"
-                           name="municipio" required>
+                    <input type="text" id="municipio" maxlenght="100" name="municipio" required>
 
                     <label for="estado">Estado (UF):</label>
-                    <input type="text" id="estado" name="estado"
-                        maxlength="2" minlength="2" placeholder="PR" required>
+                    <input type="text" id="estado" name="estado" maxlength="2" minlength="2" placeholder="PR" required>
 
                     <label for="complemento">Complemento (opcional):</label>
-                    <input type="text" id="complemento" name="complemento"
-                        maxlength="100">
+                    <input type="text" id="complemento" name="complemento" maxlength="100">
                 </fieldset>
 
                 <fieldset>
@@ -79,9 +77,8 @@
                         Foto ou documento (opcional):
                     </label>
 
-                    <input type="file" id="fotoOuAnexo"
-                           name="foto_ou_anexo"
-                           accept="image/jpeg,image/png,image/webp,.pdf">
+                    <input type="file" id="fotoOuAnexo" name="foto_ou_anexo"
+                        accept="image/jpeg,image/png,image/webp,.pdf">
 
                     <p>Formatos aceitos: JPG, PNG, WEBP e PDF.</p>
                 </fieldset>
@@ -99,4 +96,5 @@
 
     <script src="../js/scriptCadastroIndicacao.js"></script>
 </body>
+
 </html>

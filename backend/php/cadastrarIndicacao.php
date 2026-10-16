@@ -40,6 +40,10 @@ $municipio = trim($_POST["municipio"] ?? "");
 $estado = strtoupper(trim($_POST["estado"] ?? ""));
 $complemento = trim($_POST["complemento"] ?? "");
 
+// Vereador escolhido pelo cidadão (opcional, RF11). Vazio = nenhum vereador.
+$idVereadorTexto = trim($_POST["id_vereador"] ?? "");
+$idVereador = null;
+
 // 4. Valida os campos obrigatórios
 if (
     $titulo === "" ||
@@ -78,6 +82,22 @@ if (
         "mensagem" => "Verifique o CEP, a UF e o tamanho dos campos preenchidos."
     ], JSON_UNESCAPED_UNICODE);
     exit;
+}
+
+// O id do vereador, quando enviado, precisa ser um número inteiro positivo
+if ($idVereadorTexto !== "") {
+
+    if (!ctype_digit($idVereadorTexto)) {
+        http_response_code(400);
+
+        echo json_encode([
+            "sucesso" => false,
+            "mensagem" => "Vereador inválido."
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    $idVereador = (int) $idVereadorTexto;
 }
 
 // 5. Valida o anexo opcional
@@ -135,6 +155,33 @@ if ($temArquivo) {
 }
 
 require_once __DIR__ . "/conexao.php";
+
+// Confere se o vereador escolhido existe (o id pode ter sido alterado no navegador)
+if ($idVereador !== null) {
+
+    $stmtVereador = $conn->prepare(
+        "SELECT 1 FROM vereador WHERE id_vereador = ? LIMIT 1"
+    );
+    $stmtVereador->bind_param("i", $idVereador);
+    $stmtVereador->execute();
+    $stmtVereador->store_result();
+
+    $vereadorExiste = $stmtVereador->num_rows > 0;
+
+    $stmtVereador->close();
+
+    if (!$vereadorExiste) {
+        http_response_code(400);
+
+        echo json_encode([
+            "sucesso" => false,
+            "mensagem" => "O vereador selecionado não foi encontrado."
+        ], JSON_UNESCAPED_UNICODE);
+
+        $conn->close();
+        exit;
+    }
+}
 
 $caminhoFisico = null;
 
@@ -246,21 +293,24 @@ try {
             data_de_cadastro,
             id_localizacao,
             id_status,
-            id_cidadao
+            id_cidadao,
+            id_vereador
         )
-        VALUES (?, ?, ?, NOW(), ?, ?, ?)
+        VALUES (?, ?, ?, NOW(), ?, ?, ?, ?)
     ";
 
     $stmtIndicacao = $conn->prepare($sqlIndicacao);
 
+    // $idVereador pode ser null: o bind_param grava NULL no banco
     $stmtIndicacao->bind_param(
-        "sssiii",
+        "sssiiii",
         $titulo,
         $descricao,
         $caminhoAnexo,
         $idLocalizacao,
         $idStatus,
-        $idCidadao
+        $idCidadao,
+        $idVereador
     );
 
     $stmtIndicacao->execute();

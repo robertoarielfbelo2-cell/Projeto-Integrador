@@ -3,6 +3,38 @@ document.addEventListener('DOMContentLoaded', function () {
     const formIndicacao = document.getElementById('formIndicacao');
     const mensagem = document.getElementById('mensagem');
 
+    const selectVereador = document.getElementById('vereador');
+
+    // Preenche a lista de vereadores (RF11). A escolha é opcional: se a lista
+    // não carregar, o cidadão ainda consegue enviar a indicação sem vereador.
+    async function carregarVereadores() {
+
+        try {
+
+            // Só leitura: o fetch sem opções faz um GET
+            const resposta = await fetch('../../backend/php/listarVereadores.php');
+
+            if (!resposta.ok) {
+                throw new Error('Erro HTTP: ' + resposta.status);
+            }
+
+            // O PHP devolve uma lista: [{ id_vereador, nome_parlamentar, sigla, ... }, ...]
+            const vereadores = await resposta.json();
+
+            vereadores.forEach(function (vereador) {
+                const opcao = document.createElement('option');
+                opcao.value = vereador.id_vereador;
+                opcao.textContent = vereador.nome_parlamentar + ' (' + vereador.sigla + ')';
+                selectVereador.appendChild(opcao);
+            });
+
+        } catch (erro) {
+            console.error('Erro ao carregar vereadores:', erro);
+        }
+    }
+
+    carregarVereadores();
+
     formIndicacao.addEventListener('submit', async function (event) {
 
         // Impede o recarregamento da página
@@ -41,10 +73,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     'Não foi possível cadastrar a indicação.';
 
                 // Se não estiver logado, encaminha para o login
-            if (resposta.status === 401) {
-                window.location.href = 'login.html';
-                return;
-            }
+                if (resposta.status === 401) {
+                    window.location.href = 'login.html';
+                    return;
+                }
 
                 return;
             }
