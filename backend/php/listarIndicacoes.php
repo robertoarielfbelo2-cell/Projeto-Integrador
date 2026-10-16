@@ -39,6 +39,8 @@ try {
             l.bairro,
             l.municipio,
             c.nome AS autor,
+            TRIM(v.nome_parlamentar) AS vereador,
+            p.sigla AS vereador_partido,
 
             (
                 SELECT COUNT(*)
@@ -63,6 +65,13 @@ try {
 
         INNER JOIN status_indicacao AS s
             ON i.id_status = s.id_status
+
+        -- LEFT JOIN: a indicação aparece mesmo sem vereador (id_vereador NULL)
+        LEFT JOIN vereador AS v
+            ON i.id_vereador = v.id_vereador
+
+        LEFT JOIN partido AS p
+            ON v.id_partido = p.id_partido
 
         WHERE
             (? = '' OR s.nome_do_status = ?)

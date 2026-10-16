@@ -119,6 +119,11 @@ document.addEventListener('DOMContentLoaded', function () {
             indicacao.estado +
             ' | CEP: ' + indicacao.cep;
 
+        const vereador = document.createElement('p');
+        vereador.textContent = indicacao.vereador
+            ? 'Encaminhada para: ' + indicacao.vereador + ' (' + indicacao.vereador_partido + ')'
+            : 'Encaminhada para: nenhum vereador específico';
+
         const apoios = document.createElement('p');
         apoios.textContent =
             'Quantidade de apoios: ' + indicacao.total_apoios;
@@ -216,6 +221,7 @@ document.addEventListener('DOMContentLoaded', function () {
             areaAnexo,
             autor,
             localizacao,
+            vereador,
             apoios,
             statusAtual,
             selectStatus,

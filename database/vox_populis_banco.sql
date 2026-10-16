@@ -14,6 +14,7 @@ USE `projetointegrador`;
 SET NAMES utf8mb4;
 
 -- Reinicializacao intencional (ordem respeita as chaves estrangeiras).
+DROP TABLE IF EXISTS `resposta_indicacao`;
 DROP TABLE IF EXISTS `apoio`;
 DROP TABLE IF EXISTS `comentario`;
 DROP TABLE IF EXISTS `indicacao`;
@@ -70,7 +71,9 @@ CREATE TABLE `vereador` (
  `foto` VARCHAR(500) DEFAULT NULL,
  `id_partido` INT NOT NULL,
  `senha` VARCHAR(255) DEFAULT NULL,
+ `email` VARCHAR(100) DEFAULT NULL,
  PRIMARY KEY (`id_vereador`),
+ UNIQUE KEY `uq_vereador_email` (`email`),
  KEY `idx_vereador_partido` (`id_partido`),
  CONSTRAINT `fk_vereador_partido` FOREIGN KEY (`id_partido`) REFERENCES `partido` (`id_partido`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -145,6 +148,21 @@ CREATE TABLE `comentario` (
  KEY `idx_comentario_indicacao` (`id_indicacao`),
  CONSTRAINT `fk_comentario_cidadao` FOREIGN KEY (`id_cidadao`) REFERENCES `cidadao` (`id_cidadao`) ON DELETE CASCADE,
  CONSTRAINT `fk_comentario_indicacao` FOREIGN KEY (`id_indicacao`) REFERENCES `indicacao` (`id_indicacao`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Modulo do vereador: respostas do vereador as indicacoes encaminhadas a ele.
+-- Uma indicacao pode ter varias respostas, formando o historico de acompanhamento.
+CREATE TABLE `resposta_indicacao` (
+ `id_resposta` INT NOT NULL AUTO_INCREMENT,
+ `texto` VARCHAR(1000) NOT NULL,
+ `data_resposta` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ `id_indicacao` INT NOT NULL,
+ `id_vereador` INT NOT NULL,
+ PRIMARY KEY (`id_resposta`),
+ KEY `idx_resposta_indicacao` (`id_indicacao`),
+ KEY `idx_resposta_vereador` (`id_vereador`),
+ CONSTRAINT `fk_resposta_indicacao` FOREIGN KEY (`id_indicacao`) REFERENCES `indicacao` (`id_indicacao`) ON DELETE CASCADE,
+ CONSTRAINT `fk_resposta_vereador` FOREIGN KEY (`id_vereador`) REFERENCES `vereador` (`id_vereador`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 2. Dados iniciais: status fixos para o fluxo de moderacao.
@@ -228,6 +246,6 @@ VALUES ('Administrador Teste', 'admin@voxpopulis.com.br', '123456', 'administrad
 -- * Criar indicacao, apoiar e comentar exigem sessao de cidadao autenticado.
 -- * Nunca aceitar id_cidadao nem id_status arbitrarios enviados pelo navegador.
 -- * Use consultas preparadas (PDO), password_hash/password_verify e validacao de uploads.
--- * A tabela vereador preserva o campo senha legado, mas ele permanece NULL.
--- * Se for criar login de vereador, defina credenciais e autorizacoes separadamente.
+-- * Login de vereador: email e senha (password_hash) sao definidos pelo administrador; ficam NULL ate la.
+-- * O vereador so pode responder/alterar status de indicacoes com indicacao.id_vereador = id da sessao.
 -- * No formulario de indicacao, inclua estado e complemento; rua e numero sao opcionais.

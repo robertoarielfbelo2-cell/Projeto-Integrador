@@ -162,6 +162,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const autor = document.createElement('p');
         autor.textContent = 'Enviado por: ' + indicacao.autor;
 
+        // Só mostra a linha quando a indicação foi encaminhada a um vereador
+        const vereador = document.createElement('p');
+        if (indicacao.vereador) {
+            vereador.textContent =
+                'Encaminhada para: ' + indicacao.vereador +
+                ' (' + indicacao.vereador_partido + ')';
+        }
+
         // Quantidade de apoios
         const totalApoios = document.createElement('p');
         totalApoios.textContent =
@@ -346,6 +354,9 @@ document.addEventListener('DOMContentLoaded', function () {
         artigo.appendChild(status);
         artigo.appendChild(localizacao);
         artigo.appendChild(autor);
+        if (indicacao.vereador) {
+            artigo.appendChild(vereador);
+        }
         artigo.appendChild(totalApoios);
         artigo.appendChild(botaoApoiar);
 

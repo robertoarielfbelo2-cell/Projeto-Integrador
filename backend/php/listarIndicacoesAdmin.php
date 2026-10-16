@@ -49,6 +49,9 @@ try {
             s.id_status,
             s.nome_do_status AS status,
 
+            TRIM(v.nome_parlamentar) AS vereador,
+            p.sigla AS vereador_partido,
+
             (
                 SELECT COUNT(*)
                 FROM apoio a
@@ -65,6 +68,13 @@ try {
 
         INNER JOIN status_indicacao s
             ON i.id_status = s.id_status
+
+        -- LEFT JOIN: a indicação aparece mesmo sem vereador (id_vereador NULL)
+        LEFT JOIN vereador v
+            ON i.id_vereador = v.id_vereador
+
+        LEFT JOIN partido p
+            ON v.id_partido = p.id_partido
 
         ORDER BY
             i.data_de_cadastro DESC,
