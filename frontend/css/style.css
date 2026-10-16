@@ -175,23 +175,41 @@ header > h2,
     font-weight: 500;
 }
 
-header nav {
+/* Cabeçalho do site em três colunas: logo | navegação | conta.
+   As colunas laterais têm a mesma largura (1fr), então a navegação fica no centro exato. */
+header:has(> nav) {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-areas:
+        "marca     nav conta"
+        "subtitulo nav conta";
+    align-items: center;
+    column-gap: 24px;
+}
+
+header:has(> nav) > h1 { grid-area: marca; }
+header:has(> nav) > p { grid-area: subtitulo; margin: 3px 0 0; }
+header:has(> nav) > nav { grid-area: nav; }
+header:has(> nav) > .conta { grid-area: conta; justify-self: end; }
+
+header nav,
+header .conta,
+header .conta > span {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 9px;
-    margin-top: 19px;
 }
 
-header nav > span {
-    display: inline-flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 9px;
+/* O "hidden" do #areaCidadao precisa vencer o display: flex acima */
+header .conta > span[hidden] {
+    display: none;
 }
 
 header nav a,
 header nav button,
+header .conta a,
+header .conta button,
 #conteudoAdmin header > button {
     display: inline-flex;
     align-items: center;
@@ -210,13 +228,17 @@ header nav button,
 
 header nav a:hover,
 header nav button:hover,
+header .conta a:hover,
+header .conta button:hover,
 #conteudoAdmin header > button:hover {
     color: var(--verde-900);
     background: var(--amarelo);
     transform: translateY(-1px);
 }
 
-header nav a[aria-current="page"] {
+/* Página atual: mesma cor do hover */
+header nav a[aria-current="page"],
+header .conta a[aria-current="page"] {
     color: var(--verde-900);
     background: var(--amarelo);
     border-color: var(--amarelo);
@@ -806,6 +828,20 @@ body > #mensagemAdmin {
         padding: 22px 20px;
     }
 
+    header:has(> nav) {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "marca"
+            "subtitulo"
+            "nav"
+            "conta";
+        row-gap: 12px;
+    }
+
+    header:has(> nav) > .conta {
+        justify-self: start;
+    }
+
     #formFiltro {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -838,12 +874,15 @@ body > #mensagemAdmin {
     }
 
     header nav,
-    header nav > span {
+    header .conta,
+    header .conta > span {
         gap: 7px;
     }
 
     header nav a,
-    header nav button {
+    header nav button,
+    header .conta a,
+    header .conta button {
         min-height: 36px;
         padding: 7px 11px;
         font-size: 0.85rem;
