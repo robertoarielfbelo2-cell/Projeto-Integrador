@@ -105,6 +105,67 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // 3. Cria o HTML de cada indicação
+    // Converte "2026-10-16 14:30:00" em "16/10/2026 14:30"
+    function formatarDataHora(dataBanco) {
+        const data = new Date(dataBanco.replace(' ', 'T'));
+
+        if (isNaN(data)) {
+            return dataBanco;
+        }
+
+        return data.toLocaleDateString('pt-BR') + ' ' +
+            data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    // Busca as respostas do vereador a uma indicação (RF15)
+    async function carregarRespostasVereador(idIndicacao, listaRespostas) {
+
+        listaRespostas.textContent = 'Carregando respostas...';
+
+        try {
+
+            const resposta = await fetch(
+                '../../backend/php/listarRespostas.php?id_indicacao=' +
+                encodeURIComponent(idIndicacao)
+            );
+
+            const dados = await resposta.json();
+
+            if (!resposta.ok || dados.sucesso !== true) {
+                throw new Error(dados.mensagem || 'Erro ao buscar respostas.');
+            }
+
+            listaRespostas.replaceChildren();
+
+            if (dados.respostas.length === 0) {
+                listaRespostas.textContent = 'O vereador ainda não respondeu esta indicação.';
+                return;
+            }
+
+            dados.respostas.forEach(function (item) {
+
+                const divResposta = document.createElement('div');
+                divResposta.classList.add('comentario', 'resposta-vereador');
+
+                const autorResposta = document.createElement('strong');
+                autorResposta.textContent = item.vereador;
+
+                const textoResposta = document.createElement('p');
+                textoResposta.textContent = item.texto;
+
+                const dataResposta = document.createElement('small');
+                dataResposta.textContent = formatarDataHora(item.data_resposta);
+
+                divResposta.append(autorResposta, textoResposta, dataResposta);
+                listaRespostas.appendChild(divResposta);
+            });
+
+        } catch (erro) {
+            console.error('Erro ao carregar respostas do vereador:', erro);
+            listaRespostas.textContent = 'Não foi possível carregar as respostas do vereador.';
+        }
+    }
+
     function criarIndicacao(indicacao) {
 
         const artigo = document.createElement('article');
@@ -359,6 +420,21 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         artigo.appendChild(totalApoios);
         artigo.appendChild(botaoApoiar);
+
+        // Respostas do vereador: só existem quando a indicação foi encaminhada a um (RF15)
+        if (indicacao.vereador) {
+
+            const tituloRespostas = document.createElement('h4');
+            tituloRespostas.textContent = 'Respostas do vereador';
+
+            const listaRespostas = document.createElement('div');
+            listaRespostas.classList.add('lista-comentarios');
+
+            artigo.appendChild(tituloRespostas);
+            artigo.appendChild(listaRespostas);
+
+            carregarRespostasVereador(indicacao.id_indicacao, listaRespostas);
+        }
 
         artigo.appendChild(tituloComentarios);
         artigo.appendChild(listaComentarios);

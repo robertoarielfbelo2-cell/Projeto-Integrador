@@ -516,6 +516,37 @@ section[aria-labelledby="tituloPrincipal"] > * {
     margin: 12px 0 14px;
 }
 
+/* Painel do vereador: alterar o status em uma linha (rótulo, lista e botão) */
+.alterar-status {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--borda);
+}
+
+.alterar-status label {
+    margin: 0;
+}
+
+.alterar-status select {
+    width: auto;
+    max-width: 240px;
+}
+
+.alterar-status p {
+    flex-basis: 100%;
+    margin: 0;
+    color: var(--azul);
+    font-size: 0.9rem;
+}
+
+.alterar-status p:empty {
+    display: none;
+}
+
 .indicacao > button:disabled {
     color: var(--verde-800);
     background: var(--verde-100);
