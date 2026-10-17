@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Vereador | Vox Populis</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <!-- Fica escondido até o JS confirmar que há um vereador logado -->
+    <div id="conteudoVereador" hidden>
+
+        <header>
+            <h1>Vox Populis</h1>
+            <p>Painel do Vereador</p>
+
+            <nav aria-label="Navegação principal">
+                <a href="index.html">Início</a>
+                <a href="vereadores.html">Vereadores</a>
+            </nav>
+
+            <div class="conta">
+                <span id="nomeVereador"></span>
+                <button type="button" id="botaoSair">Sair</button>
+            </div>
+        </header>
+
+        <main>
+            <section aria-labelledby="tituloEncaminhadas">
+                <h2 id="tituloEncaminhadas">Indicações encaminhadas a você</h2>
+
+                <p>Acompanhe as propostas que os cidadãos enviaram diretamente para o seu gabinete.</p>
+
+                <form id="formFiltroVereador">
+                    <label for="filtroStatusVereador">Filtrar por status:</label>
+                    <select id="filtroStatusVereador" name="status">
+                        <option value="">Todos</option>
+                    </select>
+                </form>
+
+                <p id="resumoIndicacoes" role="status"></p>
+
+                <!-- Preenchido pelo scriptPainelVereador.js (RF13) -->
+                <div id="listaIndicacoesVereador">
+                    <p>Carregando indicações...</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Vox Populis - Plataforma de participação cidadã.</p>
+        </footer>
+    </div>
+
+    <p id="mensagemVereador">Verificando acesso...</p>
+
+    <script src="../js/scriptPainelVereador.js"></script>
+</body>
+
+</html>
