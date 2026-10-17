@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const resumoIndicacoes = document.getElementById('resumoIndicacoes');
     const listaIndicacoes = document.getElementById('listaIndicacoesVereador');
 
+    // Status cadastrados no banco: usados no filtro e na alteração de status
+    let statusDisponiveis = [];
+
     // 1. Só mostra o painel se houver um vereador logado
     async function verificarSessaoVereador() {
 
@@ -50,7 +53,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 throw new Error(dados.mensagem || 'Erro ao carregar status.');
             }
 
-            dados.status.forEach(function (status) {
+            statusDisponiveis = dados.status;
+
+            statusDisponiveis.forEach(function (status) {
                 const opcao = document.createElement('option');
                 opcao.value = status.id_status;
                 opcao.textContent = status.nome_do_status;
@@ -134,6 +139,107 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Erro ao carregar respostas:', erro);
             listaRespostas.textContent = 'Não foi possível carregar as respostas.';
         }
+    }
+
+    // Controle para o vereador alterar o status da indicação (RF08)
+    function criarControleStatus(indicacao, paragrafoStatus) {
+
+        const bloco = document.createElement('div');
+        bloco.classList.add('alterar-status');
+
+        const idCampo = 'status-' + indicacao.id_indicacao;
+
+        const label = document.createElement('label');
+        label.htmlFor = idCampo;
+        label.textContent = 'Alterar status:';
+
+        const selectStatus = document.createElement('select');
+        selectStatus.id = idCampo;
+
+        statusDisponiveis.forEach(function (status) {
+            const opcao = document.createElement('option');
+            opcao.value = status.id_status;
+            opcao.textContent = status.nome_do_status;
+
+            // Já começa marcado no status atual
+            if (status.id_status === indicacao.id_status) {
+                opcao.selected = true;
+            }
+
+            selectStatus.appendChild(opcao);
+        });
+
+        const botao = document.createElement('button');
+        botao.type = 'button';
+        botao.textContent = 'Atualizar status';
+
+        const mensagemStatus = document.createElement('p');
+        mensagemStatus.setAttribute('role', 'status');
+
+        botao.addEventListener('click', async function () {
+
+            const novoStatus = Number(selectStatus.value);
+
+            if (novoStatus === indicacao.id_status) {
+                mensagemStatus.textContent = 'A indicação já está com este status.';
+                return;
+            }
+
+            botao.disabled = true;
+            mensagemStatus.textContent = 'Atualizando...';
+
+            try {
+
+                const resposta = await fetch(
+                    '../../backend/php/atualizarStatus.php',
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id_indicacao: indicacao.id_indicacao,
+                            id_status: novoStatus
+                        })
+                    }
+                );
+
+                const dados = await resposta.json();
+
+                if (resposta.status === 401) {
+                    window.location.replace('loginVereador.html');
+                    return;
+                }
+
+                if (!resposta.ok || dados.sucesso !== true) {
+                    mensagemStatus.textContent =
+                        dados.mensagem || 'Não foi possível atualizar o status.';
+                    return;
+                }
+
+                // Guarda o novo status e atualiza o texto do card
+                indicacao.id_status = novoStatus;
+                indicacao.status = selectStatus.options[selectStatus.selectedIndex].textContent;
+
+                paragrafoStatus.textContent = 'Status: ' + indicacao.status;
+                mensagemStatus.textContent = dados.mensagem;
+
+                // Com um filtro ativo, a indicação pode não pertencer mais à lista
+                if (filtroStatus.value !== '' && Number(filtroStatus.value) !== novoStatus) {
+                    carregarIndicacoes();
+                }
+
+            } catch (erro) {
+                console.error('Erro ao atualizar status:', erro);
+                mensagemStatus.textContent = 'Erro ao se comunicar com o servidor.';
+            } finally {
+                botao.disabled = false;
+            }
+        });
+
+        bloco.append(label, selectStatus, botao, mensagemStatus);
+
+        return bloco;
     }
 
     // Formulário para o vereador responder uma indicação
@@ -314,8 +420,14 @@ document.addEventListener('DOMContentLoaded', function () {
             listaRespostas
         );
 
+        // Sem a lista de status (falha ao carregar), o controle não é exibido
+        const controleStatus = statusDisponiveis.length > 0
+            ? criarControleStatus(indicacao, status)
+            : document.createElement('div');
+
         artigo.append(
             titulo, status, descricao, areaAnexo, autor, localizacao, apoios,
+            controleStatus,
             tituloRespostas, listaRespostas, formularioResposta
         );
 

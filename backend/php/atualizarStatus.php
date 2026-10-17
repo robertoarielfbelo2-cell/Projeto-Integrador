@@ -4,14 +4,19 @@ header('Content-Type: application/json; charset=UTF-8');
 
 session_start();
 
-// Verifica se existe administrador autenticado
-if (!isset($_SESSION['id_administrador'])) {
+// Altera o status de uma indicação (RF08).
+// - Administrador: pode alterar qualquer indicação.
+// - Vereador: só pode alterar as indicações encaminhadas a ele.
+$ehAdministrador = isset($_SESSION['id_administrador']);
+$ehVereador = isset($_SESSION['id_vereador']);
+
+if (!$ehAdministrador && !$ehVereador) {
 
     http_response_code(401);
 
     echo json_encode([
         'sucesso' => false,
-        'mensagem' => 'Administrador não autenticado.'
+        'mensagem' => 'Acesso não autorizado.'
     ], JSON_UNESCAPED_UNICODE);
 
     exit;
@@ -110,50 +115,23 @@ try {
         exit;
     }
 
-    // Atualiza a indicação
-    $sql = "
-        UPDATE indicacao
-        SET
-            id_status = ?,
-            id_administrador = ?
-        WHERE id_indicacao = ?
-    ";
-
-    $stmt = $conn->prepare($sql);
-
-    $idAdministrador =
-        (int) $_SESSION['id_administrador'];
-
-    $stmt->bind_param(
-        'iii',
-        $idStatus,
-        $idAdministrador,
-        $idIndicacao
-    );
-
-    $stmt->execute();
-
-    $linhasAlteradas = $stmt->affected_rows;
-
-    $stmt->close();
-
-    // Confirma que a indicação existe, mesmo se o status já era igual
-    $stmtVerificar = $conn->prepare(
-        "SELECT id_indicacao
+    // Confirma que a indicação existe e descobre a quem foi encaminhada
+    $stmtIndicacao = $conn->prepare(
+        "SELECT id_vereador
          FROM indicacao
          WHERE id_indicacao = ?"
     );
 
-    $stmtVerificar->bind_param('i', $idIndicacao);
-    $stmtVerificar->execute();
+    $stmtIndicacao->bind_param('i', $idIndicacao);
+    $stmtIndicacao->execute();
 
-    $indicacaoExiste = $stmtVerificar
+    $indicacao = $stmtIndicacao
         ->get_result()
         ->fetch_assoc();
 
-    $stmtVerificar->close();
+    $stmtIndicacao->close();
 
-    if (!$indicacaoExiste) {
+    if (!$indicacao) {
 
         http_response_code(404);
 
@@ -164,6 +142,62 @@ try {
 
         exit;
     }
+
+    if ($ehAdministrador) {
+
+        // O administrador fica registrado como responsável pela moderação
+        $idAdministrador =
+            (int) $_SESSION['id_administrador'];
+
+        $stmt = $conn->prepare(
+            "UPDATE indicacao
+             SET id_status = ?, id_administrador = ?
+             WHERE id_indicacao = ?"
+        );
+
+        $stmt->bind_param(
+            'iii',
+            $idStatus,
+            $idAdministrador,
+            $idIndicacao
+        );
+
+    } else {
+
+        // Regra de segurança do módulo: o vereador só altera o que é dele
+        $idVereador = (int) $_SESSION['id_vereador'];
+
+        if ((int) $indicacao['id_vereador'] !== $idVereador) {
+
+            http_response_code(403);
+
+            echo json_encode([
+                'sucesso' => false,
+                'mensagem' => 'Esta indicação não foi encaminhada a você.'
+            ], JSON_UNESCAPED_UNICODE);
+
+            exit;
+        }
+
+        $stmt = $conn->prepare(
+            "UPDATE indicacao
+             SET id_status = ?
+             WHERE id_indicacao = ? AND id_vereador = ?"
+        );
+
+        $stmt->bind_param(
+            'iii',
+            $idStatus,
+            $idIndicacao,
+            $idVereador
+        );
+    }
+
+    $stmt->execute();
+
+    $linhasAlteradas = $stmt->affected_rows;
+
+    $stmt->close();
 
     echo json_encode([
         'sucesso' => true,
