@@ -116,12 +116,15 @@ try {
     session_start();
     session_regenerate_id(true);
 
-    // Remove uma possível sessão de administrador
+    // Remove uma possível sessão de administrador ou de vereador
     unset(
         $_SESSION['id_administrador'],
         $_SESSION['administrador_nome'],
         $_SESSION['administrador_email'],
-        $_SESSION['nivel_de_acesso']
+        $_SESSION['nivel_de_acesso'],
+        $_SESSION['id_vereador'],
+        $_SESSION['vereador_nome'],
+        $_SESSION['vereador_email']
     );
 
     // Cria a sessão do cidadão

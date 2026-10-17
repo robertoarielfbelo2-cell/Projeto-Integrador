@@ -244,7 +244,8 @@ header .conta a[aria-current="page"] {
     border-color: var(--amarelo);
 }
 
-#nomeCidadao {
+#nomeCidadao,
+#nomeVereador {
     max-width: 250px;
     color: var(--amarelo);
     font-weight: 700;
@@ -448,6 +449,11 @@ section[aria-labelledby="tituloPrincipal"] > * {
     margin: 0;
 }
 
+/* Filtro do painel do vereador: um campo só, não precisa ocupar a largura toda */
+#formFiltroVereador select {
+    max-width: 320px;
+}
+
 #formFiltro input,
 #formFiltro select {
     margin-bottom: 4px;
@@ -558,7 +564,8 @@ section[aria-labelledby="tituloPrincipal"] > * {
 }
 
 /* 7. Comentários e interações */
-.indicacao h4 {
+.indicacao h4,
+.indicacao-admin h4 {
     margin: 19px 0 10px;
     padding-top: 16px;
     border-top: 1px solid var(--borda);
@@ -607,6 +614,21 @@ section[aria-labelledby="tituloPrincipal"] > * {
 
 .form-comentario button {
     margin-top: 9px;
+}
+
+/* Contador de caracteres abaixo do campo */
+.form-comentario small {
+    display: block;
+    margin-top: 4px;
+    color: var(--texto-suave);
+    font-size: 0.82rem;
+}
+
+/* Resposta oficial do vereador: destaque em amarelo para não se confundir com um comentário */
+.comentario.resposta-vereador {
+    border-color: var(--amarelo);
+    border-left-width: 4px;
+    background: var(--amarelo-claro);
 }
 
 .form-comentario + p:not(:empty) {

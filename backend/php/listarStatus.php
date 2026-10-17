@@ -4,7 +4,11 @@ header('Content-Type: application/json; charset=UTF-8');
 
 session_start();
 
-if (!isset($_SESSION['id_administrador'])) {
+// Administrador e vereador usam a lista de status (filtro e alteração de status)
+if (
+    !isset($_SESSION['id_administrador']) &&
+    !isset($_SESSION['id_vereador'])
+) {
 
     http_response_code(401);
 
