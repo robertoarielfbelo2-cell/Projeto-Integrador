@@ -104,11 +104,14 @@ try {
     // 7. Renova o identificador da sessão
     session_regenerate_id(true);
 
-    // Remove eventual sessão de cidadão
+    // Remove eventual sessão de cidadão ou de vereador
     unset(
         $_SESSION['id_cidadao'],
         $_SESSION['cidadao_nome'],
-        $_SESSION['cidadao_email']
+        $_SESSION['cidadao_email'],
+        $_SESSION['id_vereador'],
+        $_SESSION['vereador_nome'],
+        $_SESSION['vereador_email']
     );
 
     // 8. Cria a sessão administrativa
