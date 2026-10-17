@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso dos Vereadores | Vox Populis</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Vox Populis</h1>
+        <p>Plataforma de participação cidadã</p>
+
+        <nav aria-label="Navegação principal">
+            <a href="index.html">Início</a>
+            <a href="vereadores.html">Vereadores</a>
+        </nav>
+    </header>
+
+    <main>
+        <section aria-labelledby="tituloAcessoVereador">
+
+            <h2 id="tituloAcessoVereador">Acesso dos Vereadores</h2>
+
+            <p>
+                Defina o e-mail e a senha que o vereador vai usar para entrar
+                no painel do vereador. Use a mesma tela para trocar a senha.
+            </p>
+
+            <a href="painelAdmin.html">Voltar para o painel administrativo</a>
+
+            <form id="formAcessoVereador" method="post">
+
+                <label for="vereador">Vereador:</label>
+                <select id="vereador" name="id_vereador" required>
+                    <option value="">Carregando vereadores...</option>
+                </select>
+
+                <label for="email">E-mail de acesso:</label>
+                <input type="email" id="email" name="email" maxlength="100" autocomplete="off" required>
+
+                <label for="senha">Senha (mínimo de 8 caracteres):</label>
+                <input type="password" id="senha" name="senha" minlength="8" autocomplete="new-password" required>
+
+                <label for="confirmarSenha">Confirme a senha:</label>
+                <input type="password" id="confirmarSenha" name="confirmar_senha" minlength="8"
+                    autocomplete="new-password" required>
+
+                <button type="submit">Salvar acesso</button>
+
+            </form>
+
+            <p id="mensagem" role="status"></p>
+
+        </section>
+    </main>
+
+    <footer>
+        <p>Vox Populis - Plataforma de participação cidadã.</p>
+    </footer>
+
+    <script src="../js/scriptAcessoVereador.js"></script>
+
+</body>
+
+</html>
