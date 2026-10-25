@@ -5,86 +5,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Painel Administrativo - Vox Populis</title>
+    <title>Painel Administrativo | Vox Populis</title>
 
     <link rel="stylesheet" href="../css/style.css">
 </head>
 
-<body>
+<!-- data-area="admin": o scriptCabecalho.js exige login de administrador e mostra o menu do admin -->
+<body data-area="admin">
 
-    <div id="conteudoAdmin" hidden>
+    <header>
+        <h1>Vox Populis</h1>
+        <p>Painel Administrativo</p>
 
-        <header>
+        <nav aria-label="Navegação principal">
+            <a href="index.html">Início</a>
+            <a href="vereadores.html">Vereadores</a>
+        </nav>
+    </header>
 
-            <h1>Vox Populis</h1>
-            <h2>Painel Administrativo</h2>
+    <main>
+
+        <section aria-labelledby="tituloIndicacoesRecebidas">
+
+            <h2 id="tituloIndicacoesRecebidas">Indicações Recebidas</h2>
 
             <p>
-                Bem-vindo,
-                <strong id="nomeAdministrador"></strong>
+                Acompanhe as indicações cadastradas pelos cidadãos
+                e atualize o status de cada uma.
             </p>
 
-            <button id="botaoSair" type="button">
-                Sair
-            </button>
+            <div id="listaIndicacoesAdmin">
+                <p>Carregando indicações...</p>
+            </div>
 
-        </header>
+        </section>
 
-        <main>
+    </main>
 
-            <section>
-                <h2>Gerenciamento do Sistema</h2>
+    <footer>
+        <p>Vox Populis - Plataforma de participação cidadã.</p>
+    </footer>
 
-                <nav>
-                    <ul>
-                        <li>
-                            <a href="addVereador.html">
-                                Cadastrar Vereador
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="acessoVereador.html">
-                                Acesso dos Vereadores
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="addPartido.html">
-                                Cadastrar Partido
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="index.html">
-                                Visualizar Site
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </section>
-
-            <section>
-
-                <h2>Indicações Recebidas</h2>
-
-                <p>
-                    Aqui serão exibidas as indicações
-                    cadastradas pelos cidadãos.
-                </p>
-
-                <div id="listaIndicacoesAdmin">
-                    <p>Carregando indicações...</p>
-                </div>
-
-            </section>
-
-        </main>
-
-    </div>
-
-    <p id="mensagemAdmin">Verificando acesso administrativo...</p>
-
+    <script src="../js/scriptCabecalho.js"></script>
     <script src="../js/scriptPainelAdmin.js"></script>
 
 </body>
