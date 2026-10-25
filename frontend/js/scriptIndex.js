@@ -1,11 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // Elementos da página
-    const linksVisitante = document.getElementById('linksVisitante');
-    const areaCidadao = document.getElementById('areaCidadao');
-    const nomeCidadao = document.getElementById('nomeCidadao');
-    const botaoSair = document.getElementById('botaoSair');
-
     const listaIndicacoes = document.getElementById('listaIndicacoes');
     const mensagem = document.getElementById('mensagem');
     const formFiltro = document.getElementById('formFiltro');
@@ -13,35 +8,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let cidadaoLogado = false;
 
-    // 1. Verifica se existe uma sessão ativa
+    // 1. Verifica se quem está logado é um cidadão (só ele apoia, comenta e cria indicações).
+    // O cabeçalho (nome, Sair, Entrar/Cadastrar-se) é montado pelo scriptCabecalho.js,
+    // que já consultou o perfil: aqui só reaproveitamos a resposta.
     async function verificarSessao() {
-        try {
-            const resposta = await fetch(
-                '../../backend/php/verificarSessao.php'
-            );
-
-            if (!resposta.ok) {
-                throw new Error('Erro ao verificar sessão.');
-            }
-
-            const dados = await resposta.json();
-
-            cidadaoLogado = dados.logado === true;
-
-            linksVisitante.hidden = cidadaoLogado;
-            areaCidadao.hidden = !cidadaoLogado;
-
-            if (cidadaoLogado) {
-                nomeCidadao.textContent = dados.nome;
-            }
-
-        } catch (erro) {
-            console.error('Erro na sessão:', erro);
-
-            cidadaoLogado = false;
-            linksVisitante.hidden = false;
-            areaCidadao.hidden = true;
-        }
+        const dados = await window.perfilUsuario;
+        cidadaoLogado = dados.perfil === 'cidadao';
     }
 
     // 2. Busca os comentários de uma indicação
@@ -531,42 +503,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // 8. Encerra a sessão
-    botaoSair.addEventListener('click', async function () {
-
-        botaoSair.disabled = true;
-
-        try {
-            const resposta = await fetch(
-                '../../backend/php/logout.php',
-                { method: 'POST' }
-            );
-
-            if (!resposta.ok) {
-                throw new Error('Erro ao sair.');
-            }
-
-            const dados = await resposta.json();
-
-            if (dados.sucesso === true) {
-                window.location.href = 'index.html';
-            } else {
-                mensagem.textContent =
-                    dados.mensagem || 'Não foi possível sair.';
-            }
-
-        } catch (erro) {
-            console.error('Erro no logout:', erro);
-
-            mensagem.textContent =
-                'Erro ao encerrar a sessão.';
-
-        } finally {
-            botaoSair.disabled = false;
-        }
-    });
-
-    // 9. Inicialização
+    // 8. Inicialização (o botão Sair fica no cabeçalho, no scriptCabecalho.js)
     verificarSessao();
     carregarIndicacoes();
 

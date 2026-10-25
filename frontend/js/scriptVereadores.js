@@ -50,6 +50,63 @@ async function carregarPartidos() {
     }
 }
 
+// Esta página serve para cadastrar E para editar um vereador.
+// Aberta como addVereador.html?id=5, ela entra no modo de edição do vereador 5.
+const idVereadorEdicao = new URLSearchParams(window.location.search).get('id');
+const modoEdicao = idVereadorEdicao !== null;
+
+// No modo de edição: troca os textos da página e preenche o formulário
+async function prepararEdicao() {
+    const mensagem = document.getElementById('mensagem');
+    const form = document.getElementById('formVereadores');
+    const botao = form.querySelector('button[type="submit"]');
+
+    document.title = 'Editar Vereador | Vox Populis';
+    document.getElementById('tituloCadastroVereador').textContent = 'Editar Vereador';
+    document.querySelector('section > p').textContent =
+        'Altere os dados do vereador e salve. O e-mail e a senha de acesso são definidos na tela Acesso dos Vereadores.';
+    botao.textContent = 'Salvar alterações';
+
+    botao.disabled = true;
+    mensagem.textContent = 'Carregando vereador...';
+
+    try {
+        const response = await fetch(
+            '../../backend/php/buscarVereador.php?id=' +
+            encodeURIComponent(idVereadorEdicao)
+        );
+
+        const data = await response.json();
+
+        // 403: o administrador não está logado
+        if (response.status === 403) {
+            window.location.href = 'loginAdmin.html';
+            return;
+        }
+
+        if (!response.ok || data.sucesso !== true) {
+            throw new Error(data.mensagem || 'Não foi possível carregar o vereador.');
+        }
+
+        const vereador = data.vereador;
+
+        // Campos vazios no banco (NULL) viram campos vazios no formulário
+        document.getElementById('nomeVereador').value = vereador.nome_parlamentar;
+        document.getElementById('dataInicioMandato').value = vereador.data_inicio_mandato || '';
+        document.getElementById('dataFimDoMandato').value = vereador.data_termino_mandato || '';
+        document.getElementById('descricao').value = vereador.descricao || '';
+        document.getElementById('fotoVereador').value = vereador.foto || '';
+        document.getElementById('selecionarPartido').value = vereador.id_partido;
+
+        mensagem.textContent = '';
+        botao.disabled = false;
+
+    } catch (error) {
+        console.error('Erro ao carregar vereador:', error);
+        mensagem.textContent = error.message;
+    }
+}
+
 async function cadastrarVereador(event) {
     event.preventDefault();
 
@@ -81,12 +138,21 @@ async function cadastrarVereador(event) {
         partidoVereador: partidoVereador
     };
 
+    // Na edição, o PHP precisa saber qual vereador alterar
+    if (modoEdicao) {
+        dadosVereador.id = Number(idVereadorEdicao);
+    }
+
+    const url = modoEdicao
+        ? '../../backend/php/editarVereador.php'
+        : '../../backend/php/cadastrarVereador.php';
+
     botao.disabled = true;
-    mensagem.textContent = 'Cadastrando vereador...';
+    mensagem.textContent = modoEdicao ? 'Salvando alterações...' : 'Cadastrando vereador...';
 
     try {
         const response = await fetch(
-            '../../backend/php/cadastrarVereador.php',
+            url,
             {
                 method: 'POST',
                 headers: {
@@ -107,21 +173,27 @@ async function cadastrarVereador(event) {
         mensagem.textContent =
             data.mensagem || 'Cadastro realizado.';
 
-        if (data.sucesso === true) {
+        // No cadastro, limpa para o próximo; na edição, mantém o que foi salvo
+        if (data.sucesso === true && !modoEdicao) {
             form.reset();
         }
 
     } catch (error) {
-        console.error('Erro ao cadastrar vereador:', error);
+        console.error('Erro ao salvar vereador:', error);
         mensagem.textContent = error.message;
     } finally {
         botao.disabled = false;
     }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    carregarPartidos();
-
+document.addEventListener('DOMContentLoaded', async function () {
     const form = document.getElementById('formVereadores');
     form.addEventListener('submit', cadastrarVereador);
+
+    // A lista de partidos precisa estar pronta antes de marcar o partido do vereador
+    await carregarPartidos();
+
+    if (modoEdicao) {
+        prepararEdicao();
+    }
 });

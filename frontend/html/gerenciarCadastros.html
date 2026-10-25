@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Vereadores e Partidos | Vox Populis</title>
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body data-area="admin">
+
+    <header>
+        <h1>Vox Populis</h1>
+        <p>Plataforma de participação cidadã</p>
+
+        <nav aria-label="Navegação principal">
+            <a href="index.html">Início</a>
+            <a href="vereadores.html">Vereadores</a>
+        </nav>
+    </header>
+
+    <main>
+        <section aria-labelledby="tituloGerenciar">
+            <h2 id="tituloGerenciar">Gerenciar Vereadores e Partidos</h2>
+
+            <p>Escolha um registro para editar os dados ou remover. Só é possível remover um partido sem vereadores e um vereador sem indicações encaminhadas nem respostas.</p>
+
+        </section>
+
+        <section aria-labelledby="tituloListaVereadores">
+            <h2 id="tituloListaVereadores">Vereadores</h2>
+
+            <p id="mensagemVereadores" role="status">Carregando vereadores...</p>
+
+            <div class="tabela-rolagem">
+                <table class="tabela-admin" id="tabelaVereadores" hidden>
+                    <thead>
+                        <tr>
+                            <th scope="col">Nome parlamentar</th>
+                            <th scope="col">Partido</th>
+                            <th scope="col"><span class="visualmente-oculto">Ações</span></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <a href="addVereador.html">Cadastrar novo vereador</a>
+        </section>
+
+        <section aria-labelledby="tituloListaPartidos">
+            <h2 id="tituloListaPartidos">Partidos</h2>
+
+            <p id="mensagemPartidos" role="status">Carregando partidos...</p>
+
+            <div class="tabela-rolagem">
+                <table class="tabela-admin" id="tabelaPartidos" hidden>
+                    <thead>
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Sigla</th>
+                            <th scope="col">Número</th>
+                            <th scope="col"><span class="visualmente-oculto">Ações</span></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <a href="addPartido.html">Cadastrar novo partido</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>Vox Populis - Plataforma de participação cidadã.</p>
+    </footer>
+
+    <script src="../js/scriptCabecalho.js"></script>
+    <script src="../js/scriptGerenciarCadastros.js"></script>
+
+</body>
+
+</html>

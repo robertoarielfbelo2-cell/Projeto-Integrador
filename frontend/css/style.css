@@ -244,8 +244,10 @@ header .conta a[aria-current="page"] {
     border-color: var(--amarelo);
 }
 
+/* Só o nome no cabeçalho: o formulário de vereador também tem um campo id="nomeVereador" */
 #nomeCidadao,
-#nomeVereador {
+.conta #nomeVereador,
+.nome-usuario {
     max-width: 250px;
     color: var(--amarelo);
     font-weight: 700;
@@ -671,9 +673,7 @@ section[aria-labelledby="tituloPrincipal"] > * {
 /* 8. Cadastro de cidadão, login, administrador e cadastros internos */
 #formCadastro,
 #formLogin,
-#formLoginAdmin,
-#formPartido,
-#formVereadores {
+#formLoginAdmin {
     max-width: 570px;
 }
 
@@ -681,10 +681,14 @@ section[aria-labelledby="tituloPrincipal"] > * {
     max-width: 790px;
 }
 
+/* Páginas do administrador: a seção ocupa a largura toda, como as demais telas
+   de admin; só os campos do formulário ficam numa largura confortável de ler */
+body[data-area="admin"] main form {
+    max-width: 640px;
+}
+
 section[aria-labelledby="tituloLogin"],
-section[aria-labelledby="tituloCadastro"]:not(:has(#formCadastro)),
-section[aria-labelledby="tituloCadastroVereador"],
-section[aria-labelledby="tituloCadastroPartido"] {
+section[aria-labelledby="tituloCadastro"]:not(:has(#formCadastro)) {
     max-width: 760px;
 }
 
@@ -875,10 +879,139 @@ body > #mensagemAdmin {
     font-weight: 600;
 }
 
+/* 10a. Menu do administrador: fica fixo abaixo do cabeçalho em todas as páginas de admin */
+.menu-admin {
+    padding: 0 max(24px, calc((100vw - 1120px) / 2));
+    background: var(--branco);
+    border-bottom: 1px solid var(--borda);
+}
+
+.menu-admin ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 6px;
+    margin: 0;
+    padding: 10px 0;
+    list-style: none;
+}
+
+.menu-admin a {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 10px;
+    color: var(--verde-800);
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.menu-admin a:hover {
+    background: var(--verde-100);
+}
+
+/* Página atual: fundo amarelo claro com um traço amarelo embaixo */
+.menu-admin a[aria-current="page"] {
+    color: var(--verde-900);
+    background: var(--amarelo-claro);
+    box-shadow: inset 0 -3px 0 var(--amarelo);
+}
+
+/* 10b. Tabelas do administrador (gerenciar vereadores e partidos) */
+.tabela-rolagem {
+    overflow-x: auto;
+    margin: 12px 0 18px;
+}
+
+.tabela-admin {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.94rem;
+}
+
+.tabela-admin th,
+.tabela-admin td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--borda);
+    text-align: left;
+    vertical-align: middle;
+}
+
+.tabela-admin th {
+    color: var(--texto-suave);
+    font-size: 0.82rem;
+    font-weight: 650;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.tabela-admin tbody tr:hover {
+    background: var(--verde-50);
+}
+
+/* A coluna do botão fica estreita e alinhada à direita */
+.tabela-admin td:last-child {
+    width: 1%;
+    white-space: nowrap;
+    text-align: right;
+}
+
+.botao-editar {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid var(--verde-600);
+    border-radius: 8px;
+    color: var(--verde-800);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.botao-editar:hover {
+    color: var(--branco);
+    background: var(--verde-700);
+}
+
+/* Editar e Remover lado a lado na última coluna */
+.tabela-admin td.acoes > * + * {
+    margin-left: 8px;
+}
+
+/* Remover: vermelho discreto, para não ser clicado por engano no lugar de Editar */
+.tabela-admin .botao-remover {
+    min-height: 0;
+    padding: 6px 14px;
+    border: 1px solid #b4473c;
+    border-radius: 8px;
+    color: #9c3a30;
+    background: transparent;
+    font-size: inherit;
+    font-weight: 600;
+    box-shadow: none;
+}
+
+.tabela-admin .botao-remover:hover:not(:disabled) {
+    color: var(--branco);
+    background: #9c3a30;
+    transform: none;
+}
+
+/* Texto lido por leitores de tela, mas invisível na tela */
+.visualmente-oculto {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
 /* 11. Telas menores */
 @media (max-width: 800px) {
     header {
         padding: 22px 20px;
+    }
+
+    .menu-admin {
+        padding: 0 20px;
     }
 
     header:has(> nav) {

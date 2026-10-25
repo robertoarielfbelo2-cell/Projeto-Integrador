@@ -1,45 +1,18 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    const conteudoAdmin = document.getElementById('conteudoAdmin');
-    const nomeAdministrador = document.getElementById('nomeAdministrador');
-    const mensagemAdmin = document.getElementById('mensagemAdmin');
-    const botaoSair = document.getElementById('botaoSair');
     const listaIndicacoesAdmin = document.getElementById('listaIndicacoesAdmin');
 
     let statusDisponiveis = [];
 
-    // 1. Verifica a sessão administrativa
+    // 1. Verifica a sessão administrativa.
+    // O scriptCabecalho.js já consultou o perfil (e mostra o nome e o botão Sair);
+    // aqui só reaproveitamos a resposta para decidir se carrega o painel.
     async function verificarSessaoAdmin() {
 
-        try {
+        const dados = await window.perfilUsuario;
 
-            const resposta = await fetch(
-                '../../backend/php/verificarSessaoAdmin.php'
-            );
-
-            const dados = await resposta.json();
-
-            if (!resposta.ok || dados.logado !== true) {
-                window.location.replace('loginAdmin.html');
-                return false;
-            }
-
-            nomeAdministrador.textContent = dados.nome;
-
-            conteudoAdmin.hidden = false;
-            mensagemAdmin.hidden = true;
-
-            return true;
-
-        } catch (erro) {
-
-            console.error(erro);
-
-            mensagemAdmin.textContent =
-                'Erro ao verificar sessão administrativa.';
-
-            return false;
-        }
+        // Sem administrador logado, o scriptCabecalho.js redireciona para o login
+        return dados.perfil === 'administrador';
     }
 
     // 2. Busca os status disponíveis
@@ -277,37 +250,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // 6. Encerra a sessão
-    botaoSair.addEventListener('click', async function () {
-
-        try {
-
-            const resposta = await fetch(
-                '../../backend/php/logoutAdmin.php',
-                {
-                    method: 'POST'
-                }
-            );
-
-            const dados = await resposta.json();
-
-            if (!resposta.ok || dados.sucesso !== true) {
-                throw new Error('Erro ao sair.');
-            }
-
-            window.location.replace('loginAdmin.html');
-
-        } catch (erro) {
-
-            console.error(erro);
-
-            mensagemAdmin.hidden = false;
-            mensagemAdmin.textContent =
-                'Não foi possível encerrar a sessão.';
-        }
-    });
-
-    // 7. Inicializa o painel
+    // 6. Inicializa o painel (o botão Sair fica no cabeçalho, no scriptCabecalho.js)
     async function iniciarPainel() {
 
         const autenticado = await verificarSessaoAdmin();

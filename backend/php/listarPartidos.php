@@ -9,7 +9,8 @@ try {
         SELECT
             id_partido AS id,
             nome,
-            sigla
+            sigla,
+            numero
         FROM partido
         ORDER BY nome ASC
     ";
