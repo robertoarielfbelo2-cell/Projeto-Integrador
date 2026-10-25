@@ -970,6 +970,30 @@ body > #mensagemAdmin {
     background: var(--verde-700);
 }
 
+/* Editar e Remover lado a lado na última coluna */
+.tabela-admin td.acoes > * + * {
+    margin-left: 8px;
+}
+
+/* Remover: vermelho discreto, para não ser clicado por engano no lugar de Editar */
+.tabela-admin .botao-remover {
+    min-height: 0;
+    padding: 6px 14px;
+    border: 1px solid #b4473c;
+    border-radius: 8px;
+    color: #9c3a30;
+    background: transparent;
+    font-size: inherit;
+    font-weight: 600;
+    box-shadow: none;
+}
+
+.tabela-admin .botao-remover:hover:not(:disabled) {
+    color: var(--branco);
+    background: #9c3a30;
+    transform: none;
+}
+
 /* Texto lido por leitores de tela, mas invisível na tela */
 .visualmente-oculto {
     position: absolute;
