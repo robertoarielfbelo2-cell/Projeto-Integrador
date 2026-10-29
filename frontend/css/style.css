@@ -261,7 +261,8 @@ main {
     flex: 1;
 }
 
-main > section {
+main > section,
+main > [role="tabpanel"] > section {
     margin-bottom: 25px;
     padding: clamp(20px, 3vw, 32px);
     border: 1px solid var(--borda);
@@ -270,7 +271,8 @@ main > section {
     box-shadow: var(--sombra);
 }
 
-main > section > p {
+main > section > p,
+main > [role="tabpanel"] > section > p {
     color: var(--texto-suave);
 }
 
@@ -879,6 +881,68 @@ body > #mensagemAdmin {
     font-weight: 600;
 }
 
+/* 9b. Abas (scriptAbas.js): painel do vereador e página inicial */
+.abas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 18px;
+    border-bottom: 2px solid var(--borda);
+}
+
+.abas [role="tab"] {
+    min-height: 0;
+    margin-bottom: -2px;
+    padding: 11px 20px;
+    border: none;
+    border-bottom: 3px solid transparent;
+    border-radius: 10px 10px 0 0;
+    color: var(--texto-suave);
+    background: transparent;
+    box-shadow: none;
+    font-size: 1rem;
+    font-weight: 650;
+}
+
+.abas [role="tab"]:hover:not([aria-selected="true"]) {
+    color: var(--verde-800);
+    background: var(--verde-100);
+    transform: none;
+}
+
+/* Aba aberta: mesmo amarelo do menu do administrador */
+.abas [role="tab"][aria-selected="true"] {
+    color: var(--verde-900);
+    background: var(--amarelo-claro);
+    border-bottom-color: var(--amarelo);
+}
+
+/* Projetos de lei */
+#formProjeto {
+    max-width: 790px;
+}
+
+.projeto-lei .ementa {
+    color: var(--texto);
+    font-weight: 600;
+}
+
+.projeto-lei details {
+    margin: 10px 0;
+}
+
+.projeto-lei summary {
+    color: var(--verde-700);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.texto-projeto {
+    margin-top: 10px;
+    color: var(--texto);
+    white-space: pre-wrap;
+}
+
 /* 10a. Menu do administrador: fica fixo abaixo do cabeçalho em todas as páginas de admin */
 .menu-admin {
     padding: 0 max(24px, calc((100vw - 1120px) / 2));
@@ -1080,7 +1144,8 @@ body > #mensagemAdmin {
         margin-bottom: 36px;
     }
 
-    main > section {
+    main > section,
+    main > [role="tabpanel"] > section {
         margin-bottom: 16px;
         padding: 19px 16px;
         border-radius: 13px;

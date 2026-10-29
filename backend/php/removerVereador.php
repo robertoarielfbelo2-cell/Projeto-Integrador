@@ -119,8 +119,11 @@ try {
 
         echo json_encode([
             "sucesso" => false,
+            // "a, b e c": vírgulas entre os motivos e "e" antes do último
             "mensagem" => "Não é possível remover {$vereador['nome']}: há "
-                . implode(" e ", $motivos)
+                . (count($motivos) > 1
+                    ? implode(", ", array_slice($motivos, 0, -1)) . " e " . end($motivos)
+                    : $motivos[0])
                 . ". Remover apagaria o histórico que os cidadãos acompanham."
         ], JSON_UNESCAPED_UNICODE);
 
