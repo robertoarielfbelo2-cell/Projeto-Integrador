@@ -937,6 +937,17 @@ body > #mensagemAdmin {
     cursor: pointer;
 }
 
+#formFiltroProjetos select {
+    max-width: 320px;
+}
+
+/* Mensagem do apoio, logo abaixo do botão Apoiar do projeto */
+.mensagem-projeto:not(:empty) {
+    margin-top: 4px;
+    color: var(--azul);
+    font-size: 0.9rem;
+}
+
 .texto-projeto {
     margin-top: 10px;
     color: var(--texto);
