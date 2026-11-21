@@ -14,6 +14,9 @@ USE `projetointegrador`;
 SET NAMES utf8mb4;
 
 -- Reinicializacao intencional (ordem respeita as chaves estrangeiras).
+DROP TABLE IF EXISTS `apoio_projeto`;
+DROP TABLE IF EXISTS `projeto_lei`;
+DROP TABLE IF EXISTS `situacao_projeto`;
 DROP TABLE IF EXISTS `resposta_indicacao`;
 DROP TABLE IF EXISTS `apoio`;
 DROP TABLE IF EXISTS `comentario`;
@@ -165,6 +168,44 @@ CREATE TABLE `resposta_indicacao` (
  CONSTRAINT `fk_resposta_vereador` FOREIGN KEY (`id_vereador`) REFERENCES `vereador` (`id_vereador`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Projetos de lei: o vereador publica, o cidadao acompanha a situacao e apoia.
+-- Situacoes fixas da tramitacao (mesma ideia de status_indicacao).
+CREATE TABLE `situacao_projeto` (
+ `id_situacao` INT NOT NULL AUTO_INCREMENT,
+ `nome_da_situacao` VARCHAR(30) NOT NULL,
+ `descricao` VARCHAR(200) DEFAULT NULL,
+ PRIMARY KEY (`id_situacao`),
+ UNIQUE KEY `uq_situacao_nome` (`nome_da_situacao`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `projeto_lei` (
+ `id_projeto` INT NOT NULL AUTO_INCREMENT,
+ `titulo` VARCHAR(150) NOT NULL,
+ `ementa` VARCHAR(500) NOT NULL,
+ `texto` TEXT NOT NULL,
+ `anexo_pdf` VARCHAR(255) DEFAULT NULL,
+ `data_publicacao` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ `id_situacao` INT NOT NULL DEFAULT 1,
+ `id_vereador` INT NOT NULL,
+ PRIMARY KEY (`id_projeto`),
+ KEY `idx_projeto_situacao` (`id_situacao`),
+ KEY `idx_projeto_vereador` (`id_vereador`),
+ KEY `idx_projeto_data` (`data_publicacao`),
+ CONSTRAINT `fk_projeto_situacao` FOREIGN KEY (`id_situacao`) REFERENCES `situacao_projeto` (`id_situacao`),
+ CONSTRAINT `fk_projeto_vereador` FOREIGN KEY (`id_vereador`) REFERENCES `vereador` (`id_vereador`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Cada cidadao pode apoiar um projeto de lei uma unica vez (mesma regra do apoio a indicacoes).
+CREATE TABLE `apoio_projeto` (
+ `id_cidadao` INT NOT NULL,
+ `id_projeto` INT NOT NULL,
+ `data_apoio` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ PRIMARY KEY (`id_cidadao`, `id_projeto`),
+ KEY `idx_apoio_projeto_projeto` (`id_projeto`),
+ CONSTRAINT `fk_apoio_projeto_cidadao` FOREIGN KEY (`id_cidadao`) REFERENCES `cidadao` (`id_cidadao`) ON DELETE CASCADE,
+ CONSTRAINT `fk_apoio_projeto_projeto` FOREIGN KEY (`id_projeto`) REFERENCES `projeto_lei` (`id_projeto`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- 2. Dados iniciais: status fixos para o fluxo de moderacao.
 INSERT INTO `status_indicacao` (`id_status`, `nome_do_status`, `descricao`) VALUES
  (1, 'Enviada', 'Aguardando analise inicial'),
@@ -173,7 +214,14 @@ INSERT INTO `status_indicacao` (`id_status`, `nome_do_status`, `descricao`) VALU
  (4, 'Em execução', 'Proposta em realizacao'),
  (5, 'Concluída', 'Proposta finalizada'),
  (6, 'Recusada', 'Proposta rejeitada');
- 
+
+-- Situacoes da tramitacao de um projeto de lei (1 = situacao inicial ao publicar).
+INSERT INTO `situacao_projeto` (`id_situacao`, `nome_da_situacao`, `descricao`) VALUES
+ (1, 'Em tramitação', 'Projeto protocolado e em discussao na Camara'),
+ (2, 'Aprovado', 'Projeto aprovado em plenario'),
+ (3, 'Rejeitado', 'Projeto rejeitado em plenario'),
+ (4, 'Arquivado', 'Projeto arquivado sem votacao');
+
 -- 3. Dados de referencia extraidos do dump enviado.
 -- Verifique a atualidade de partidos, mandatos e descricoes antes de publicar.
 INSERT INTO `partido` (`id_partido`, `nome`, `sigla`, `numero`) VALUES

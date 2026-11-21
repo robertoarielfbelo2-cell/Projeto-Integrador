@@ -81,17 +81,19 @@ try {
     $stmtUso = $conn->prepare("
         SELECT
             (SELECT COUNT(*) FROM indicacao WHERE id_vereador = ?) AS indicacoes,
-            (SELECT COUNT(*) FROM resposta_indicacao WHERE id_vereador = ?) AS respostas
+            (SELECT COUNT(*) FROM resposta_indicacao WHERE id_vereador = ?) AS respostas,
+            (SELECT COUNT(*) FROM projeto_lei WHERE id_vereador = ?) AS projetos
     ");
-    $stmtUso->bind_param("ii", $idVereador, $idVereador);
+    $stmtUso->bind_param("iii", $idVereador, $idVereador, $idVereador);
     $stmtUso->execute();
     $uso = $stmtUso->get_result()->fetch_assoc();
     $stmtUso->close();
 
     $indicacoes = (int) $uso['indicacoes'];
     $respostas = (int) $uso['respostas'];
+    $projetos = (int) $uso['projetos'];
 
-    if ($indicacoes > 0 || $respostas > 0) {
+    if ($indicacoes > 0 || $respostas > 0 || $projetos > 0) {
 
         $motivos = [];
 
@@ -107,12 +109,21 @@ try {
                 : "$respostas respostas publicadas";
         }
 
+        if ($projetos > 0) {
+            $motivos[] = $projetos === 1
+                ? "1 projeto de lei publicado"
+                : "$projetos projetos de lei publicados";
+        }
+
         http_response_code(409);
 
         echo json_encode([
             "sucesso" => false,
+            // "a, b e c": vírgulas entre os motivos e "e" antes do último
             "mensagem" => "Não é possível remover {$vereador['nome']}: há "
-                . implode(" e ", $motivos)
+                . (count($motivos) > 1
+                    ? implode(", ", array_slice($motivos, 0, -1)) . " e " . end($motivos)
+                    : $motivos[0])
                 . ". Remover apagaria o histórico que os cidadãos acompanham."
         ], JSON_UNESCAPED_UNICODE);
 

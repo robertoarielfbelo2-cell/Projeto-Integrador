@@ -29,7 +29,15 @@
         </header>
 
         <main>
-            <section aria-labelledby="tituloEncaminhadas">
+            <!-- Abas: cada botão mostra um painel e esconde o outro (scriptAbas.js) -->
+            <div class="abas" role="tablist" aria-label="Seções do painel do vereador">
+                <button type="button" role="tab" id="aba-indicacoes" aria-controls="painel-indicacoes"
+                    aria-selected="true" data-hash="indicacoes">Indicações encaminhadas</button>
+                <button type="button" role="tab" id="aba-projetos" aria-controls="painel-projetos"
+                    aria-selected="false" data-hash="projetos">Projetos de lei</button>
+            </div>
+
+            <section id="painel-indicacoes" role="tabpanel" aria-labelledby="aba-indicacoes">
                 <h2 id="tituloEncaminhadas">Indicações encaminhadas a você</h2>
 
                 <p>Acompanhe as propostas que os cidadãos enviaram diretamente para o seu gabinete.</p>
@@ -48,6 +56,46 @@
                     <p>Carregando indicações...</p>
                 </div>
             </section>
+
+            <div id="painel-projetos" role="tabpanel" aria-labelledby="aba-projetos" hidden>
+
+                <section aria-labelledby="tituloPublicarProjeto">
+                    <h2 id="tituloPublicarProjeto">Publicar projeto de lei</h2>
+
+                    <p>O projeto fica visível para todos os cidadãos, que podem acompanhar a tramitação e apoiar.</p>
+
+                    <form id="formProjeto" method="post" enctype="multipart/form-data">
+
+                        <label for="tituloProjeto">Título:</label>
+                        <input type="text" id="tituloProjeto" name="titulo" maxlength="150" required
+                            placeholder="Ex.: Programa de hortas comunitárias nas escolas municipais">
+
+                        <label for="ementaProjeto">Ementa (resumo do projeto, até 500 caracteres):</label>
+                        <textarea id="ementaProjeto" name="ementa" maxlength="500" rows="3" required
+                            placeholder="Ex.: Institui o programa de hortas comunitárias nas escolas da rede municipal."></textarea>
+
+                        <label for="textoProjeto">Texto do projeto:</label>
+                        <textarea id="textoProjeto" name="texto" maxlength="20000" rows="10" required
+                            placeholder="Artigos, justificativa e detalhes do projeto."></textarea>
+
+                        <label for="anexoProjeto">Projeto oficial em PDF (opcional, até 10 MB):</label>
+                        <input type="file" id="anexoProjeto" name="anexo_pdf" accept="application/pdf,.pdf">
+
+                        <button type="submit">Publicar projeto de lei</button>
+                    </form>
+
+                    <p id="mensagemProjeto" role="status"></p>
+                </section>
+
+                <section aria-labelledby="tituloMeusProjetos">
+                    <h2 id="tituloMeusProjetos">Seus projetos de lei</h2>
+
+                    <p id="resumoProjetos" role="status">Carregando projetos...</p>
+
+                    <!-- Preenchido pelo scriptProjetosVereador.js -->
+                    <div id="listaProjetosVereador"></div>
+                </section>
+            </div>
         </main>
 
         <footer>
@@ -57,7 +105,9 @@
 
     <p id="mensagemVereador">Verificando acesso...</p>
 
+    <script src="../js/scriptAbas.js"></script>
     <script src="../js/scriptPainelVereador.js"></script>
+    <script src="../js/scriptProjetosVereador.js"></script>
 </body>
 
 </html>
