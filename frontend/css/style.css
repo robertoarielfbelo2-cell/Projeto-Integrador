@@ -1,39 +1,47 @@
 /* ================================================================
    VOX POPULIS — CURITIBA
-   Identidade visual: verde das araucárias, amarelo do papagaio,
-   detalhes em azul-petróleo.
+   Identidade visual: paleta oficial do projeto (Deep Teal, Forest Green,
+   Golden Action Yellow e Warm Beige).
    CSS único para todas as páginas do projeto.
    ================================================================ */
 
 /* 1. Paleta e configurações gerais */
 
 :root {
-    /* Verdes inspirados em Curitiba */
-    --verde-900: #263E35;
-    --verde-800: #314D40;
-    --verde-700: #3D6552;
-    --verde-600: #4B7862;
-    --verde-100: #E6EFE8;
-    --verde-50: #F5F8F4;
+    /* Deep Teal #005662: segurança, confiança e solidez institucional.
+       Estrutura do site: cabeçalho, rodapé, títulos, botões principais.
+       900/800 são tons mais escuros; 100/50, fundos claros derivados. */
+    --teal-900: #00343B;
+    --teal-800: #00454E;
+    --teal-700: #005662;
+    --teal-600: #1A6F7A;
+    --teal-100: #D9ECEE;
+    --teal-50: #EFF6F6;
 
-    /* Amarelo suave inspirado no Partido Missão */
-    --amarelo: #D8B65D;
-    --amarelo-claro: #FAF3DE;
+    /* Forest Green #228B22: meio ambiente urbano e progresso.
+       Faixa dos cartões de indicação e confirmações (ex.: "Apoiado"). */
+    --verde: #228B22;
+    --verde-claro: #E4F2E4;
+    --verde-escuro: #1A6B1A; /* texto verde legível sobre fundo claro */
 
-    /* Azul acinzentado para detalhes */
-    --azul: #557A80;
+    /* Golden Action Yellow #FFD700: ações, destaques e engajamento */
+    --amarelo: #FFD700;
+    --amarelo-claro: #FFF6C2;
+
+    /* Teal médio para mensagens e detalhes */
+    --azul: #2F6E78;
 
     /* Textos */
-    --texto: #343B36;
-    --texto-suave: #69766D;
+    --texto: #1E2B2E;
+    --texto-suave: #55666A;
 
-    /* Fundo e elementos */
-    --fundo: #F5F7F3;
+    /* Warm Beige #F5F5DC: fundo confortável para a leitura */
+    --fundo: #F5F5DC;
     --branco: #FFFFFF;
-    --borda: #DFE6DF;
+    --borda: #E2E0C6;
 
     /* Sombras e bordas */
-    --sombra: 0 6px 24px rgba(38, 62, 53, 0.06);
+    --sombra: 0 6px 24px rgba(0, 52, 59, 0.07);
     --raio: 16px;
 }
 
@@ -74,12 +82,12 @@ h1, h2, h3, h4 {
 
 h2 {
     margin-bottom: 12px;
-    color: var(--verde-900);
+    color: var(--teal-900);
     font-size: clamp(1.35rem, 2.5vw, 1.9rem);
 }
 
 h3 {
-    color: var(--verde-900);
+    color: var(--teal-900);
     font-size: 1.16rem;
 }
 
@@ -88,7 +96,7 @@ p {
 }
 
 a {
-    color: var(--verde-700);
+    color: var(--teal-700);
     text-underline-offset: 3px;
 }
 
@@ -125,8 +133,8 @@ header {
     padding: 25px max(24px, calc((100vw - 1120px) / 2));
     color: var(--branco);
     background:
-        radial-gradient(circle at 88% 0%, rgba(243, 198, 81, 0.15), transparent 32%),
-        linear-gradient(120deg, var(--verde-900), var(--verde-700));
+        radial-gradient(circle at 88% 0%, rgba(255, 215, 0, 0.15), transparent 32%),
+        linear-gradient(120deg, var(--teal-900), var(--teal-700));
     border-bottom: 5px solid var(--amarelo);
 }
 
@@ -160,7 +168,7 @@ header > p,
 header > h2,
 #conteudoAdmin header > p,
 #conteudoAdmin header > h2 {
-    color: #e2efe7;
+    color: #D6EBEE;
 }
 
 header > p {
@@ -231,7 +239,7 @@ header nav button:hover,
 header .conta a:hover,
 header .conta button:hover,
 #conteudoAdmin header > button:hover {
-    color: var(--verde-900);
+    color: var(--teal-900);
     background: var(--amarelo);
     transform: translateY(-1px);
 }
@@ -239,7 +247,7 @@ header .conta button:hover,
 /* Página atual: mesma cor do hover */
 header nav a[aria-current="page"],
 header .conta a[aria-current="page"] {
-    color: var(--verde-900);
+    color: var(--teal-900);
     background: var(--amarelo);
     border-color: var(--amarelo);
 }
@@ -279,8 +287,8 @@ main > [role="tabpanel"] > section > p {
 footer {
     margin-top: auto;
     padding: 24px 18px;
-    color: #e0ede4;
-    background: var(--verde-900);
+    color: #D6EBEE;
+    background: var(--teal-900);
     text-align: center;
     font-size: 0.9rem;
 }
@@ -297,7 +305,7 @@ button[type="submit"],
     border-radius: 10px;
     padding: 11px 20px;
     color: var(--branco);
-    background: var(--verde-700);
+    background: var(--teal-700);
     font-weight: 700;
     text-decoration: none;
     transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
@@ -306,8 +314,8 @@ button[type="submit"],
 button:hover:not(:disabled),
 #novaIndicacao:hover {
     color: var(--branco);
-    background: var(--verde-900);
-    box-shadow: 0 6px 16px rgba(16, 61, 50, 0.14);
+    background: var(--teal-900);
+    box-shadow: 0 6px 16px rgba(0, 52, 59, 0.14);
     transform: translateY(-1px);
 }
 
@@ -322,7 +330,7 @@ button:active:not(:disabled),
     gap: 9px;
     margin-top: 10px;
     background: var(--amarelo);
-    color: var(--verde-900);
+    color: var(--teal-900);
 }
 
 #novaIndicacao::before {
@@ -332,8 +340,8 @@ button:active:not(:disabled),
 }
 
 #novaIndicacao:hover {
-    color: var(--verde-900);
-    background: #ffda74;
+    color: var(--teal-900);
+    background: #FFE14D;
 }
 
 form {
@@ -343,7 +351,7 @@ form {
 form label {
     display: block;
     margin: 16px 0 6px;
-    color: var(--verde-900);
+    color: var(--teal-900);
     font-weight: 650;
     font-size: 0.92rem;
 }
@@ -356,7 +364,7 @@ select {
     min-width: 0;
     min-height: 46px;
     padding: 10px 13px;
-    border: 1px solid #cddbd1;
+    border: 1px solid #C9D9DA;
     border-radius: 10px;
     color: var(--texto);
     background: var(--branco);
@@ -367,13 +375,13 @@ input:not([type="checkbox"]):not([type="radio"]):focus,
 textarea:focus,
 select:focus {
     outline: none;
-    border-color: var(--verde-600);
-    box-shadow: 0 0 0 3px rgba(33, 128, 92, 0.13);
+    border-color: var(--teal-600);
+    box-shadow: 0 0 0 3px rgba(0, 86, 98, 0.16);
 }
 
 input::placeholder,
 textarea::placeholder {
-    color: #8a9890;
+    color: #7C8B8E;
 }
 
 textarea {
@@ -383,13 +391,13 @@ textarea {
 
 input[type="file"] {
     padding: 11px;
-    background: var(--verde-50);
+    background: var(--teal-50);
 }
 
 input[type="file"]::file-selector-button {
     margin-right: 12px;
     padding: 9px 12px;
-    color: var(--verde-900);
+    color: var(--teal-900);
     border: 1px solid var(--borda);
     border-radius: 8px;
     background: var(--amarelo-claro);
@@ -405,12 +413,12 @@ fieldset {
     padding: 18px 23px 23px;
     border: 1px solid var(--borda);
     border-radius: 13px;
-    background: #fbfdfb;
+    background: #FDFDF6;
 }
 
 legend {
     padding: 0 9px;
-    color: var(--verde-800);
+    color: var(--teal-800);
     font-weight: 800;
 }
 
@@ -428,10 +436,10 @@ fieldset > p {
 section[aria-labelledby="tituloPrincipal"] {
     position: relative;
     overflow: hidden;
-    border-color: #d5e6d8;
+    border-color: #CFE3E5;
     background:
-        radial-gradient(circle at 95% 15%, rgba(243, 198, 81, 0.22), transparent 30%),
-        linear-gradient(120deg, #f0f8f0, #ffffff 70%);
+        radial-gradient(circle at 95% 15%, rgba(255, 215, 0, 0.22), transparent 30%),
+        linear-gradient(120deg, #EAF4F5, #ffffff 70%);
 }
 
 section[aria-labelledby="tituloPrincipal"] > * {
@@ -491,10 +499,10 @@ section[aria-labelledby="tituloPrincipal"] > * {
     min-width: 0;
     padding: clamp(17px, 2.5vw, 26px);
     border: 1px solid var(--borda);
-    border-left: 5px solid var(--verde-600);
+    border-left: 5px solid var(--verde);
     border-radius: 13px;
     background: #ffffff;
-    box-shadow: 0 5px 18px rgba(16, 61, 50, 0.05);
+    box-shadow: 0 5px 18px rgba(0, 52, 59, 0.05);
 }
 
 .indicacao h3,
@@ -552,8 +560,8 @@ section[aria-labelledby="tituloPrincipal"] > * {
 }
 
 .indicacao > button:disabled {
-    color: var(--verde-800);
-    background: var(--verde-100);
+    color: var(--verde-escuro);
+    background: var(--verde-claro);
     opacity: 1;
 }
 
@@ -574,7 +582,7 @@ section[aria-labelledby="tituloPrincipal"] > * {
     object-fit: contain;
     border: 1px solid var(--borda);
     border-radius: 12px;
-    background: var(--verde-50);
+    background: var(--teal-50);
 }
 
 .anexo-indicacao a {
@@ -605,7 +613,7 @@ section[aria-labelledby="tituloPrincipal"] > * {
     padding-top: 16px;
     border-top: 1px solid var(--borda);
     font-size: 1rem;
-    color: var(--verde-800);
+    color: var(--teal-800);
 }
 
 .lista-comentarios {
@@ -618,15 +626,15 @@ section[aria-labelledby="tituloPrincipal"] > * {
 
 .comentario {
     padding: 12px 14px;
-    border: 1px solid #e1eae2;
+    border: 1px solid var(--borda);
     border-radius: 10px;
-    background: var(--verde-50);
+    background: var(--teal-50);
 }
 
 .comentario strong {
     display: block;
     margin-bottom: 3px;
-    color: var(--verde-800);
+    color: var(--teal-800);
 }
 
 .comentario p {
@@ -695,7 +703,7 @@ section[aria-labelledby="tituloCadastro"]:not(:has(#formCadastro)) {
 }
 
 section[aria-labelledby="tituloLogin"] {
-    border-top: 5px solid var(--verde-700);
+    border-top: 5px solid var(--teal-700);
 }
 
 section[aria-labelledby="tituloCadastro"]:not(:has(#formCadastro)) {
@@ -712,13 +720,13 @@ a[href="loginAdmin.html"] {
 }
 
 a[href="loginAdmin.html"]:hover {
-    color: var(--verde-700);
+    color: var(--teal-700);
 }
 
 /* Conteúdo do login administrativo: título h3 separado do formulário */
 main > h3 {
     margin: 8px 0 16px;
-    color: var(--verde-900);
+    color: var(--teal-900);
     font-size: 1.6rem;
 }
 
@@ -741,7 +749,7 @@ main > h3 {
     border-left: 4px solid var(--azul);
     border-radius: 9px;
     background: #eaf5f5;
-    color: #205662;
+    color: var(--teal-800);
     font-size: 0.93rem;
 }
 
@@ -765,7 +773,7 @@ body > #mensagemAdmin {
     border: 1px solid var(--borda);
     border-radius: 14px;
     background: var(--branco);
-    box-shadow: 0 4px 15px rgba(16, 61, 50, 0.06);
+    box-shadow: 0 4px 15px rgba(0, 52, 59, 0.06);
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -781,15 +789,15 @@ body > #mensagemAdmin {
     margin-bottom: 16px;
     border-radius: 10px;
     object-fit: cover;
-    background: var(--verde-100);
+    background: var(--teal-100);
 }
 
 .foto-vazia {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--verde-700);
-    background: linear-gradient(140deg, var(--verde-100), #f6f2d6);
+    color: var(--teal-700);
+    background: linear-gradient(140deg, var(--teal-100), var(--amarelo-claro));
     font-weight: 700;
 }
 
@@ -802,7 +810,7 @@ body > #mensagemAdmin {
     margin: 0 0 10px;
     padding: 3px 10px;
     border-radius: 999px;
-    color: var(--verde-900);
+    color: var(--teal-900);
     background: var(--amarelo-claro);
     font-size: 0.82rem;
     font-weight: 700;
@@ -856,14 +864,14 @@ body > #mensagemAdmin {
     padding: 10px 15px;
     border: 1px solid var(--borda);
     border-radius: 10px;
-    background: var(--verde-50);
-    color: var(--verde-800);
+    background: var(--teal-50);
+    color: var(--teal-800);
     font-weight: 700;
     text-decoration: none;
 }
 
 #conteudoAdmin main nav a:hover {
-    background: var(--verde-100);
+    background: var(--teal-100);
 }
 
 .indicacao-admin select {
@@ -905,14 +913,14 @@ body > #mensagemAdmin {
 }
 
 .abas [role="tab"]:hover:not([aria-selected="true"]) {
-    color: var(--verde-800);
-    background: var(--verde-100);
+    color: var(--teal-800);
+    background: var(--teal-100);
     transform: none;
 }
 
 /* Aba aberta: mesmo amarelo do menu do administrador */
 .abas [role="tab"][aria-selected="true"] {
-    color: var(--verde-900);
+    color: var(--teal-900);
     background: var(--amarelo-claro);
     border-bottom-color: var(--amarelo);
 }
@@ -932,7 +940,7 @@ body > #mensagemAdmin {
 }
 
 .projeto-lei summary {
-    color: var(--verde-700);
+    color: var(--teal-700);
     font-weight: 600;
     cursor: pointer;
 }
@@ -974,19 +982,19 @@ body > #mensagemAdmin {
     display: inline-block;
     padding: 8px 14px;
     border-radius: 10px;
-    color: var(--verde-800);
+    color: var(--teal-800);
     font-size: 0.92rem;
     font-weight: 600;
     text-decoration: none;
 }
 
 .menu-admin a:hover {
-    background: var(--verde-100);
+    background: var(--teal-100);
 }
 
 /* Página atual: fundo amarelo claro com um traço amarelo embaixo */
 .menu-admin a[aria-current="page"] {
-    color: var(--verde-900);
+    color: var(--teal-900);
     background: var(--amarelo-claro);
     box-shadow: inset 0 -3px 0 var(--amarelo);
 }
@@ -1020,7 +1028,7 @@ body > #mensagemAdmin {
 }
 
 .tabela-admin tbody tr:hover {
-    background: var(--verde-50);
+    background: var(--teal-50);
 }
 
 /* A coluna do botão fica estreita e alinhada à direita */
@@ -1033,16 +1041,16 @@ body > #mensagemAdmin {
 .botao-editar {
     display: inline-block;
     padding: 6px 14px;
-    border: 1px solid var(--verde-600);
+    border: 1px solid var(--teal-600);
     border-radius: 8px;
-    color: var(--verde-800);
+    color: var(--teal-800);
     font-weight: 600;
     text-decoration: none;
 }
 
 .botao-editar:hover {
     color: var(--branco);
-    background: var(--verde-700);
+    background: var(--teal-700);
 }
 
 /* Editar e Remover lado a lado na última coluna */
