@@ -150,7 +150,7 @@ header h1::before {
     height: 60px;
     flex: 0 0 60px;
 
-    background-image: url("../assets/missao.png");
+    background-image: url("../assets/logo.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
