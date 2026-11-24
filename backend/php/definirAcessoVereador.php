@@ -3,9 +3,6 @@
 header("Content-Type: application/json; charset=UTF-8");
 
 session_start();
-
-// Define (ou troca) o e-mail e a senha de acesso de um vereador (RF09 / RF12).
-// Somente o administrador pode fazer isso.
 if (
     !isset($_SESSION['id_administrador']) ||
     !is_numeric($_SESSION['id_administrador'])
@@ -86,8 +83,6 @@ try {
     if (!$vereadorExiste) {
         throw new InvalidArgumentException("O vereador selecionado não existe.");
     }
-
-    // O e-mail não pode estar em uso por OUTRO vereador
     $stmtEmail = $conn->prepare(
         "SELECT 1 FROM vereador WHERE email = ? AND id_vereador <> ? LIMIT 1"
     );

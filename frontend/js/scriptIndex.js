@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    // Elementos da página
+
     const listaIndicacoes = document.getElementById('listaIndicacoes');
     const mensagem = document.getElementById('mensagem');
     const formFiltro = document.getElementById('formFiltro');
@@ -8,15 +8,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let cidadaoLogado = false;
 
-    // 1. Verifica se quem está logado é um cidadão (só ele apoia, comenta e cria indicações).
-    // O cabeçalho (nome, Sair, Entrar/Cadastrar-se) é montado pelo scriptCabecalho.js,
-    // que já consultou o perfil: aqui só reaproveitamos a resposta.
+
     async function verificarSessao() {
         const dados = await window.perfilUsuario;
         cidadaoLogado = dados.perfil === 'cidadao';
     }
 
-    // 2. Busca os comentários de uma indicação
     async function carregarComentarios(idIndicacao, listaComentarios) {
 
         listaComentarios.textContent = 'Carregando comentários...';
@@ -76,8 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // 3. Cria o HTML de cada indicação
-    // Converte "2026-10-16 14:30:00" em "16/10/2026 14:30"
+
     function formatarDataHora(dataBanco) {
         const data = new Date(dataBanco.replace(' ', 'T'));
 
@@ -89,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
             data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
     }
 
-    // Busca as respostas do vereador a uma indicação (RF15)
+
     async function carregarRespostasVereador(idIndicacao, listaRespostas) {
 
         listaRespostas.textContent = 'Carregando respostas...';
@@ -277,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // 4. Cria a área de comentários
+        // área de comentários dessa porra
         const tituloComentarios = document.createElement('h4');
         tituloComentarios.textContent = 'Comentários';
 
@@ -300,11 +296,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         formComentario.appendChild(campoComentario);
         formComentario.appendChild(botaoComentar);
-
-        // Mensagem específica deste formulário
         const mensagemComentario = document.createElement('p');
 
-        // Envia o comentário ao PHP
+        // Manda ess aporra para o php
         formComentario.addEventListener('submit', async function (event) {
 
             event.preventDefault();
@@ -356,13 +350,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     return;
                 }
 
-                // Limpa o formulário
+
                 campoComentario.value = '';
 
                 mensagemComentario.textContent =
                     'Comentário enviado com sucesso!';
 
-                // Atualiza a lista sem recarregar a página
+
                 await carregarComentarios(
                     indicacao.id_indicacao,
                     listaComentarios
@@ -393,7 +387,7 @@ document.addEventListener('DOMContentLoaded', function () {
         artigo.appendChild(totalApoios);
         artigo.appendChild(botaoApoiar);
 
-        // Respostas do vereador: só existem quando a indicação foi encaminhada a um (RF15)
+
         if (indicacao.vereador) {
 
             const tituloRespostas = document.createElement('h4');
@@ -413,7 +407,7 @@ document.addEventListener('DOMContentLoaded', function () {
         artigo.appendChild(formComentario);
         artigo.appendChild(mensagemComentario);
 
-        // Busca os comentários desta indicação
+   
         carregarComentarios(
             indicacao.id_indicacao,
             listaComentarios
@@ -422,7 +416,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return artigo;
     }
 
-    // 5. Busca as indicações no PHP
+
     async function carregarIndicacoes() {
 
         mensagem.textContent = 'Carregando indicações...';
@@ -489,7 +483,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // 6. Aplica os filtros
+
     formFiltro.addEventListener('submit', function (event) {
         event.preventDefault();
         carregarIndicacoes();
@@ -503,7 +497,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // 8. Inicialização (o botão Sair fica no cabeçalho, no scriptCabecalho.js)
+  
     verificarSessao();
     carregarIndicacoes();
 

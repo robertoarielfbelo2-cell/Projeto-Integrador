@@ -1,11 +1,3 @@
-// Cabeçalho compartilhado por todas as páginas.
-// 1. Descobre quem está logado (cidadão, administrador, vereador ou visitante)
-//    e monta o canto direito do cabeçalho: Entrar/Cadastrar-se ou nome + Sair.
-// 2. Nas páginas do administrador (<body data-area="admin">), exige login de
-//    administrador e mostra o menu do administrador logo abaixo do cabeçalho.
-//
-// Outros scripts da página podem usar o mesmo resultado sem nova consulta:
-//     const dados = await window.perfilUsuario;   // { perfil, nome }
 
 window.perfilUsuario = fetch('../../backend/php/verificarPerfil.php')
     .then(function (resposta) { return resposta.json(); })
@@ -16,7 +8,7 @@ window.perfilUsuario = fetch('../../backend/php/verificarPerfil.php')
 
 (function () {
 
-    // Menu do administrador: texto do link e página que ele abre
+
     const menuAdmin = [
         { texto: 'Indicações recebidas', pagina: 'painelAdmin.html' },
         { texto: 'Gerenciar vereadores e partidos', pagina: 'gerenciarCadastros.html' },
@@ -25,14 +17,13 @@ window.perfilUsuario = fetch('../../backend/php/verificarPerfil.php')
         { texto: 'Acesso dos vereadores', pagina: 'acessoVereador.html' }
     ];
 
-    // Para onde cada perfil vai ao sair, e qual PHP encerra a sessão
+   
     const saida = {
         cidadao: { php: 'logout.php', destino: 'index.html' },
         administrador: { php: 'logoutAdmin.php', destino: 'loginAdmin.html' },
         vereador: { php: 'logoutVereador.php', destino: 'loginVereador.html' }
     };
 
-    // Painel de cada perfil (o cidadão não tem painel próprio)
     const painel = {
         administrador: { texto: 'Painel administrativo', pagina: 'painelAdmin.html' },
         vereador: { texto: 'Painel do vereador', pagina: 'painelVereador.html' }
@@ -54,7 +45,7 @@ window.perfilUsuario = fetch('../../backend/php/verificarPerfil.php')
         return link;
     }
 
-    // Monta a área de conta (canto direito do cabeçalho)
+
     function montarConta(dados) {
         const cabecalho = document.querySelector('body > header, body > div > header');
 
@@ -74,7 +65,7 @@ window.perfilUsuario = fetch('../../backend/php/verificarPerfil.php')
 
         const pagina = paginaAtual();
 
-        // Visitante: Entrar e Cadastrar-se
+ 
         if (!dados.perfil) {
             conta.append(
                 criarLink('Entrar', 'login.html', pagina === 'login.html'),
@@ -88,7 +79,6 @@ window.perfilUsuario = fetch('../../backend/php/verificarPerfil.php')
         nome.textContent = dados.nome;
         conta.appendChild(nome);
 
-        // Fora da área do próprio perfil, mostra o caminho de volta para o painel
         const atalho = painel[dados.perfil];
         const dentroDaAreaAdmin = document.body.dataset.area === 'admin';
 
@@ -116,7 +106,7 @@ window.perfilUsuario = fetch('../../backend/php/verificarPerfil.php')
         conta.appendChild(botaoSair);
     }
 
-    // Menu do administrador, logo abaixo do cabeçalho
+    
     function montarMenuAdmin() {
         const cabecalho = document.querySelector('body > header');
 
@@ -126,7 +116,7 @@ window.perfilUsuario = fetch('../../backend/php/verificarPerfil.php')
 
         const pagina = paginaAtual();
 
-        // Editar vereador/partido usa a tela de cadastro com ?id=: o destaque fica em "Gerenciar"
+
         const editando = new URLSearchParams(window.location.search).has('id');
         const destaque = editando && (pagina === 'addVereador.html' || pagina === 'addPartido.html')
             ? 'gerenciarCadastros.html'

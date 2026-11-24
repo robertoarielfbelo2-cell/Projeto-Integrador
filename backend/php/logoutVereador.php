@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// Encerra a sessão atual e apaga o cookie de sessão
+
 $_SESSION = [];
 
 if (ini_get('session.use_cookies')) {

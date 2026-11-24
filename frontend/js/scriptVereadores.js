@@ -50,12 +50,11 @@ async function carregarPartidos() {
     }
 }
 
-// Esta página serve para cadastrar E para editar um vereador.
-// Aberta como addVereador.html?id=5, ela entra no modo de edição do vereador 5.
+
 const idVereadorEdicao = new URLSearchParams(window.location.search).get('id');
 const modoEdicao = idVereadorEdicao !== null;
 
-// No modo de edição: troca os textos da página e preenche o formulário
+
 async function prepararEdicao() {
     const mensagem = document.getElementById('mensagem');
     const form = document.getElementById('formVereadores');
@@ -78,7 +77,7 @@ async function prepararEdicao() {
 
         const data = await response.json();
 
-        // 403: o administrador não está logado
+   
         if (response.status === 403) {
             window.location.href = 'loginAdmin.html';
             return;
@@ -173,7 +172,7 @@ async function cadastrarVereador(event) {
         mensagem.textContent =
             data.mensagem || 'Cadastro realizado.';
 
-        // No cadastro, limpa para o próximo; na edição, mantém o que foi salvo
+
         if (data.sucesso === true && !modoEdicao) {
             form.reset();
         }
@@ -189,8 +188,6 @@ async function cadastrarVereador(event) {
 document.addEventListener('DOMContentLoaded', async function () {
     const form = document.getElementById('formVereadores');
     form.addEventListener('submit', cadastrarVereador);
-
-    // A lista de partidos precisa estar pronta antes de marcar o partido do vereador
     await carregarPartidos();
 
     if (modoEdicao) {

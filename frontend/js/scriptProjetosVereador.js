@@ -1,6 +1,4 @@
-// Aba "Projetos de lei" do painel do vereador:
-// publicar um projeto e acompanhar os projetos publicados (situação e apoios).
-// A verificação de login fica no scriptPainelVereador.js.
+
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -9,10 +7,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const resumoProjetos = document.getElementById('resumoProjetos');
     const listaProjetos = document.getElementById('listaProjetosVereador');
 
-    // Situações de tramitação (Em tramitação, Aprovado, ...), vindas do banco
+
     let situacoes = [];
 
-    // Converte "2026-10-29 14:30:00" em "29/10/2026"
+
     function formatarData(dataBanco) {
         const data = new Date(dataBanco.replace(' ', 'T'));
         return isNaN(data) ? dataBanco : data.toLocaleDateString('pt-BR');
@@ -31,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Controle para mudar a situação de um projeto
+
     function criarControleSituacao(projeto, paragrafoSituacao) {
 
         const bloco = document.createElement('div');
@@ -114,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return bloco;
     }
 
-    // Cartão de um projeto de lei
+
     function criarProjeto(projeto) {
 
         const artigo = document.createElement('article');
@@ -130,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ementa.classList.add('ementa');
         ementa.textContent = projeto.ementa;
 
-        // O texto completo pode ser longo: fica recolhido até o vereador abrir
+
         const detalhes = document.createElement('details');
         const resumo = document.createElement('summary');
         resumo.textContent = 'Ler o texto completo';
@@ -203,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Publicar: envia com FormData por causa do PDF
+
     formProjeto.addEventListener('submit', async function (event) {
 
         event.preventDefault();

@@ -4,7 +4,7 @@ header('Content-Type: application/json; charset=UTF-8');
 
 session_start();
 
-// Login do vereador (RF12): e-mail e senha definidos pelo administrador.
+
 
 // 1. Permite apenas POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

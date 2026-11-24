@@ -4,18 +4,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let statusDisponiveis = [];
 
-    // 1. Verifica a sessão administrativa.
-    // O scriptCabecalho.js já consultou o perfil (e mostra o nome e o botão Sair);
-    // aqui só reaproveitamos a resposta para decidir se carrega o painel.
     async function verificarSessaoAdmin() {
 
         const dados = await window.perfilUsuario;
 
-        // Sem administrador logado, o scriptCabecalho.js redireciona para o login
         return dados.perfil === 'administrador';
     }
 
-    // 2. Busca os status disponíveis
     async function carregarStatus() {
 
         const resposta = await fetch(
@@ -35,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
         statusDisponiveis = dados.status;
     }
 
-    // 3. Cria um cartão para cada indicação
+
     function criarIndicacaoAdmin(indicacao) {
 
         const artigo = document.createElement('article');
@@ -47,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const descricao = document.createElement('p');
         descricao.textContent = indicacao.descricao;
 
-        // Exibe o anexo da indicação, se existir
+
         const areaAnexo = document.createElement('div');
         areaAnexo.classList.add('anexo-indicacao');
 
@@ -69,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             } else if (/\.pdf$/i.test(caminhoAnexo)) {
 
-                // Cria um link para visualizar o PDF
+
                 const link = document.createElement('a');
 
                 link.href = urlAnexo;
@@ -105,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
         statusAtual.textContent =
             'Status atual: ' + indicacao.status;
 
-        // Campo para selecionar o novo status
+
         const selectStatus = document.createElement('select');
 
         statusDisponiveis.forEach(function (status) {
@@ -128,7 +123,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const mensagem = document.createElement('p');
 
-        // 4. Atualiza o status no banco
         botaoSalvar.addEventListener('click', async function () {
 
             botaoSalvar.disabled = true;
@@ -204,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return artigo;
     }
 
-    // 5. Carrega as indicações do banco
+
     async function carregarIndicacoesAdmin() {
 
         listaIndicacoesAdmin.textContent =
@@ -250,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // 6. Inicializa o painel (o botão Sair fica no cabeçalho, no scriptCabecalho.js)
+
     async function iniciarPainel() {
 
         const autenticado = await verificarSessaoAdmin();

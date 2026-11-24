@@ -3,10 +3,6 @@
 header('Content-Type: application/json; charset=UTF-8');
 
 session_start();
-
-// Altera o status de uma indicação (RF08).
-// - Administrador: pode alterar qualquer indicação.
-// - Vereador: só pode alterar as indicações encaminhadas a ele.
 $ehAdministrador = isset($_SESSION['id_administrador']);
 $ehVereador = isset($_SESSION['id_vereador']);
 
@@ -22,7 +18,6 @@ if (!$ehAdministrador && !$ehVereador) {
     exit;
 }
 
-// Aceita apenas POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
     http_response_code(405);
@@ -35,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// Recebe os dados enviados pelo JavaScript
 $dados = json_decode(
     file_get_contents('php://input'),
     true
@@ -86,7 +80,7 @@ require_once __DIR__ . '/conexao.php';
 
 try {
 
-    // Confirma que o status existe
+
     $sqlStatus = "
         SELECT id_status
         FROM status_indicacao
@@ -115,7 +109,7 @@ try {
         exit;
     }
 
-    // Confirma que a indicação existe e descobre a quem foi encaminhada
+
     $stmtIndicacao = $conn->prepare(
         "SELECT id_vereador
          FROM indicacao
@@ -145,7 +139,7 @@ try {
 
     if ($ehAdministrador) {
 
-        // O administrador fica registrado como responsável pela moderação
+
         $idAdministrador =
             (int) $_SESSION['id_administrador'];
 
@@ -164,7 +158,7 @@ try {
 
     } else {
 
-        // Regra de segurança do módulo: o vereador só altera o que é dele
+
         $idVereador = (int) $_SESSION['id_vereador'];
 
         if ((int) $indicacao['id_vereador'] !== $idVereador) {

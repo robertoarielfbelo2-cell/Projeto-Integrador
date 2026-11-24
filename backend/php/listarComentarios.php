@@ -2,7 +2,7 @@
 
 header('Content-Type: application/json; charset=UTF-8');
 
-// Permite apenas GET
+
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     http_response_code(405);
 
@@ -14,13 +14,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 
 require_once __DIR__ . '/conexao.php';
 
-// Recebe o ID da indicação pela URL
+
 $idIndicacao = filter_var(
     $_GET['id_indicacao'] ?? null,
     FILTER_VALIDATE_INT
 );
 
-// Verifica se o ID é válido
 if ($idIndicacao === false || $idIndicacao === null || $idIndicacao <= 0) {
     http_response_code(400);
 

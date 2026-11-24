@@ -4,7 +4,7 @@ header('Content-Type: application/json; charset=UTF-8');
 
 session_start();
 
-// O vereador atualiza a situação de tramitação de um projeto de lei DELE.
+
 
 if (!isset($_SESSION['id_vereador'])) {
     http_response_code(401);
@@ -55,8 +55,6 @@ if ($idProjeto === false || $idSituacao === false) {
 require_once __DIR__ . '/conexao.php';
 
 try {
-
-    // A situação precisa existir
     $stmtSituacao = $conn->prepare(
         'SELECT 1 FROM situacao_projeto WHERE id_situacao = ? LIMIT 1'
     );
@@ -75,8 +73,6 @@ try {
         ], JSON_UNESCAPED_UNICODE);
         exit;
     }
-
-    // O projeto precisa existir e ser do vereador da sessão
     $stmtProjeto = $conn->prepare(
         'SELECT id_vereador FROM projeto_lei WHERE id_projeto = ? LIMIT 1'
     );

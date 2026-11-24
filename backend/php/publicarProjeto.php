@@ -4,8 +4,6 @@ header('Content-Type: application/json; charset=UTF-8');
 
 session_start();
 
-// O vereador logado publica um projeto de lei.
-// Campos: titulo, ementa, texto e anexo_pdf (opcional). A situação inicial é "Em tramitação" (id 1).
 
 if (!isset($_SESSION['id_vereador'])) {
     http_response_code(401);

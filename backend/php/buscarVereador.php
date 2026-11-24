@@ -4,7 +4,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 session_start();
 
-// Devolve os dados de um vereador para preencher o formulário de edição: ?id=<id_vereador>
+
 if (
     !isset($_SESSION['id_administrador']) ||
     !is_numeric($_SESSION['id_administrador'])

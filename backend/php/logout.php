@@ -14,10 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 session_start();
 
-// Apaga os dados da sessão
+
 $_SESSION = [];
 
-// Remove o cookie da sessão, se existir
+
 if (ini_get('session.use_cookies')) {
 
     $parametros = session_get_cookie_params();
@@ -33,7 +33,7 @@ if (ini_get('session.use_cookies')) {
     );
 }
 
-// Encerra a sessão no servidor
+
 session_destroy();
 
 echo json_encode([

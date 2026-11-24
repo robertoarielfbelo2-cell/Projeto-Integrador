@@ -6,11 +6,11 @@ document.addEventListener('DOMContentLoaded', function () {
     formLogin.addEventListener('submit', async function (event) {
         event.preventDefault();
 
-        // Captura os dados digitados
+
         const email = document.getElementById('email').value.trim();
         const senha = document.getElementById('senha').value;
 
-        // Organiza os dados para enviar ao PHP
+
         const dadosLogin = {
             email: email,
             senha: senha
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
         mensagem.textContent = 'Verificando login...';
 
         try {
-            // Envia os dados ao PHP
+
             const resposta = await fetch(
                 '../../backend/php/login.php',
                 {
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             );
 
-            // Recebe a resposta do servidor
+
             const resultado = await resposta.json();
 
             if (!resposta.ok || resultado.sucesso !== true) {
@@ -43,10 +43,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            // Login realizado com sucesso
+
             mensagem.textContent = 'Login realizado com sucesso!';
 
-            // Redireciona para o feed de indicações
+
             window.location.href = 'index.html';
 
         } catch (erro) {

@@ -4,7 +4,6 @@ header("Content-Type: application/json; charset=UTF-8");
 
 session_start();
 
-// Lista os vereadores com o e-mail de acesso. Só o administrador vê os e-mails.
 if (
     !isset($_SESSION['id_administrador']) ||
     !is_numeric($_SESSION['id_administrador'])

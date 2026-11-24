@@ -4,7 +4,7 @@ header('Content-Type: application/json; charset=UTF-8');
 
 session_start();
 
-// Verifica se existe um administrador logado
+
 if (isset($_SESSION['id_administrador'])) {
 
     echo json_encode([

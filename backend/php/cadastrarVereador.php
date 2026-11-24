@@ -62,7 +62,6 @@ try {
         );
     }
 
-    // Valida o tamanho do nome parlamentar
     if (mb_strlen($nomeVereador) > 100) {
         throw new InvalidArgumentException(
             "O nome parlamentar deve ter no máximo 100 caracteres."

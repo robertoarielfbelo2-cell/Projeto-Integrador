@@ -34,7 +34,7 @@ try {
     $senha = (string)($dados["senha"] ?? "");
     $cpf = preg_replace('/\D/', '', (string)($dados["cpf"] ?? ""));
 
-    // Verifica campos obrigatórios
+
     if (
         $nome === "" ||
         $email === "" ||
@@ -47,28 +47,26 @@ try {
         );
     }
 
-    // Valida o tamanho do nome
+
     if (mb_strlen($nome) > 100) {
         throw new InvalidArgumentException(
             "O nome deve ter no máximo 100 caracteres."
         );
     }
 
-    // Valida e-mail
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         throw new InvalidArgumentException(
             "Informe um e-mail válido."
         );
     }
 
-    // Verifica apenas se o CPF possui 11 números
+
     if (strlen($cpf) !== 11) {
         throw new InvalidArgumentException(
             "O CPF deve conter 11 números."
         );
     }
 
-    // Valida telefone, caso informado
     if (
         $telefone !== "" &&
         !in_array(strlen($telefone), [10, 11], true)
@@ -78,14 +76,14 @@ try {
         );
     }
 
-    // Verifica tamanho mínimo da senha
+
     if (strlen($senha) < 1) {
         throw new InvalidArgumentException(
             "A senha deve conter pelo menos 1 caracteres."
         );
     }
 
-    // Converte a data de nascimento
+
     $nascimento = DateTimeImmutable::createFromFormat(
         '!Y-m-d',
         $dataNascimento
@@ -100,7 +98,7 @@ try {
         );
     }
 
-    // Verifica se o cidadão tem 18 anos completos
+
     $hoje = new DateTimeImmutable("today");
 
     if ($nascimento > $hoje) {
@@ -117,7 +115,7 @@ try {
         );
     }
 
-    // Verifica se CPF ou e-mail já estão cadastrados
+
     $sqlVerificacao = "
         SELECT id_cidadao
         FROM cidadao

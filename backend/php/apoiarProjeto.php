@@ -4,8 +4,6 @@ header('Content-Type: application/json; charset=UTF-8');
 
 session_start();
 
-// O cidadão logado apoia um projeto de lei. Cada cidadão apoia um projeto uma única vez.
-
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
 
@@ -50,7 +48,7 @@ require_once __DIR__ . '/conexao.php';
 
 try {
 
-    // O projeto precisa existir
+
     $stmt = $conn->prepare('SELECT 1 FROM projeto_lei WHERE id_projeto = ? LIMIT 1');
     $stmt->bind_param('i', $idProjeto);
     $stmt->execute();
@@ -68,7 +66,6 @@ try {
         exit;
     }
 
-    // Um apoio por cidadão: a chave primária (id_cidadao, id_projeto) também garante isso no banco
     $stmt = $conn->prepare(
         'SELECT 1 FROM apoio_projeto WHERE id_cidadao = ? AND id_projeto = ? LIMIT 1'
     );

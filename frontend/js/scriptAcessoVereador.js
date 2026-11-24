@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const campoEmail = document.getElementById('email');
     const mensagem = document.getElementById('mensagem');
 
-    // E-mail atual de cada vereador, para preencher o campo ao trocar a seleção
+
     let emailsPorVereador = {};
 
     async function carregarVereadores() {
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const opcao = document.createElement('option');
                 opcao.value = vereador.id_vereador;
 
-                // Mostra quem já tem acesso, para o admin saber se está criando ou trocando
+   
                 opcao.textContent =
                     vereador.nome_parlamentar + ' (' + vereador.sigla + ')' +
                     (vereador.email ? ' - com acesso' : ' - sem acesso');
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Ao escolher um vereador que já tem acesso, mostra o e-mail atual
+
     selectVereador.addEventListener('change', function () {
         campoEmail.value = emailsPorVereador[selectVereador.value] || '';
     });

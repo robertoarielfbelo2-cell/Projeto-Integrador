@@ -2,7 +2,7 @@
 
 header("Content-Type: application/json; charset=UTF-8");
 
-// Permite apenas consultas GET
+
 if ($_SERVER["REQUEST_METHOD"] !== "GET") {
     http_response_code(405);
 
@@ -17,7 +17,7 @@ try {
 
     require_once __DIR__ . "/conexao.php";
 
-    // Busca os vereadores e seus partidos
+
     $sql = "
         SELECT
             v.id_vereador,
@@ -33,14 +33,14 @@ try {
 
     $resultado = $conn->query($sql);
 
-    // Organiza os vereadores em um array
+    
     $vereadores = [];
 
     while ($linha = $resultado->fetch_assoc()) {
         $vereadores[] = $linha;
     }
 
-    // Retorna os dados para o JavaScript
+    
     echo json_encode(
         $vereadores,
         JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE

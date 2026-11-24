@@ -4,8 +4,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 session_start();
 
-// Remove um partido. Somente administradores.
-// Regra: só remove partido sem vereadores; antes, o admin troca o partido deles.
+
 if (
     !isset($_SESSION['id_administrador']) ||
     !is_numeric($_SESSION['id_administrador'])
@@ -76,7 +75,6 @@ try {
         exit;
     }
 
-    // Quantos vereadores ainda pertencem ao partido
     $stmtUso = $conn->prepare(
         "SELECT COUNT(*) AS total FROM vereador WHERE id_partido = ?"
     );

@@ -1,6 +1,3 @@
-// Aba "Projetos de lei" da página inicial: o cidadão vê os projetos dos
-// vereadores, filtra por situação e apoia (um apoio por projeto).
-// Os projetos só são buscados quando a aba é aberta pela primeira vez.
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -38,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
         } catch (erro) {
-            // Sem a lista, a aba continua funcionando, só sem filtro
+
             console.error('Erro ao carregar situações:', erro);
         }
     }
@@ -59,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         botao.addEventListener('click', async function () {
 
-            // Só cidadão apoia: visitante vai para o login
             const perfil = await window.perfilUsuario;
 
             if (perfil.perfil !== 'cidadao') {
@@ -109,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return botao;
     }
 
-    // Cartão de um projeto de lei
+
     function criarProjeto(projeto) {
 
         const artigo = document.createElement('article');
@@ -130,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
             'Apresentado por ' + projeto.vereador + ' (' + projeto.vereador_partido + ')' +
             ' em ' + formatarData(projeto.data_publicacao);
 
-        // O texto completo pode ser longo: fica recolhido até o cidadão abrir
+
         const detalhes = document.createElement('details');
         const resumo = document.createElement('summary');
         resumo.textContent = 'Ler o texto completo';
@@ -207,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Busca os dados só na primeira vez que a aba aparece
+
     async function carregarNaPrimeiraVez() {
         if (jaCarregou) {
             return;

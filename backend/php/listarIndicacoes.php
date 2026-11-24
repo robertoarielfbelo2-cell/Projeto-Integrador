@@ -15,11 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 
 require_once __DIR__ . '/conexao.php';
 
-// Identifica o cidadão logado.
-// Se for visitante, utiliza 0.
+
 $idCidadao = (int) ($_SESSION['id_cidadao'] ?? 0);
 
-// Recebe os filtros enviados pelo JavaScript
+
 $status = trim($_GET['status'] ?? '');
 $cep = preg_replace('/\D/', '', $_GET['cep'] ?? '');
 $bairro = trim($_GET['bairro'] ?? '');
@@ -108,10 +107,9 @@ try {
 
     while ($linha = $resultado->fetch_assoc()) {
 
-        // Converte o resultado para verdadeiro ou falso
         $linha['ja_apoiou'] = (bool) $linha['ja_apoiou'];
 
-        // Converte a quantidade de apoios para número
+
         $linha['total_apoios'] = (int) $linha['total_apoios'];
 
         $indicacoes[] = $linha;

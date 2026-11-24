@@ -8,10 +8,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const resumoIndicacoes = document.getElementById('resumoIndicacoes');
     const listaIndicacoes = document.getElementById('listaIndicacoesVereador');
 
-    // Status cadastrados no banco: usados no filtro e na alteração de status
+
     let statusDisponiveis = [];
 
-    // 1. Só mostra o painel se houver um vereador logado
+
     async function verificarSessaoVereador() {
 
         try {
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // 2. Preenche o filtro com os status cadastrados no banco
+
     async function carregarStatus() {
 
         try {
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
         } catch (erro) {
-            // Sem a lista de status o painel continua funcionando, só sem filtro
+
             console.error('Erro ao carregar status:', erro);
         }
     }
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
             data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
     }
 
-    // Monta o bloco de uma resposta do vereador
+
     function criarElementoResposta(resposta) {
 
         const divResposta = document.createElement('div');
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return divResposta;
     }
 
-    // Busca o histórico de respostas de uma indicação (RF14)
+
     async function carregarRespostas(idIndicacao, listaRespostas) {
 
         listaRespostas.textContent = 'Carregando respostas...';
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Controle para o vereador alterar o status da indicação (RF08)
+
     function criarControleStatus(indicacao, paragrafoStatus) {
 
         const bloco = document.createElement('div');
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
             opcao.value = status.id_status;
             opcao.textContent = status.nome_do_status;
 
-            // Já começa marcado no status atual
+
             if (status.id_status === indicacao.id_status) {
                 opcao.selected = true;
             }
@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return bloco;
     }
 
-    // Formulário para o vereador responder uma indicação
+
     function criarFormularioResposta(idIndicacao, listaRespostas) {
 
         const form = document.createElement('form');
@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if (resposta.ok && dados.sucesso === true) {
 
-                    // Tira o aviso "ainda não respondeu" e mostra a nova resposta no fim
+
                     if (listaRespostas.querySelector('.resposta-vereador') === null) {
                         listaRespostas.replaceChildren();
                     }
@@ -338,14 +338,14 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // A mensagem fica logo depois do formulário
+
         const bloco = document.createElement('div');
         bloco.append(form, mensagemForm);
 
         return bloco;
     }
 
-    // 3. Cria o cartão de uma indicação
+
     function criarIndicacao(indicacao) {
 
         const artigo = document.createElement('article');
@@ -359,8 +359,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const descricao = document.createElement('p');
         descricao.textContent = indicacao.descricao;
-
-        // Anexo: imagem aparece na página, PDF vira link
         const areaAnexo = document.createElement('div');
         areaAnexo.classList.add('anexo-indicacao');
 
@@ -392,7 +390,7 @@ document.addEventListener('DOMContentLoaded', function () {
             'Enviada por ' + indicacao.autor +
             ' em ' + formatarData(indicacao.data_de_cadastro);
 
-        // Endereço completo: o vereador precisa saber exatamente onde é o problema
+
         const partesEndereco = [indicacao.rua, indicacao.numero]
             .filter(function (parte) { return parte; })
             .join(', ');
@@ -408,7 +406,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const apoios = document.createElement('p');
         apoios.textContent = 'Apoios dos cidadãos: ' + indicacao.total_apoios;
 
-        // Histórico de respostas + formulário para responder (RF14)
+
         const tituloRespostas = document.createElement('h4');
         tituloRespostas.textContent = 'Respostas do gabinete';
 
@@ -420,7 +418,7 @@ document.addEventListener('DOMContentLoaded', function () {
             listaRespostas
         );
 
-        // Sem a lista de status (falha ao carregar), o controle não é exibido
+
         const controleStatus = statusDisponiveis.length > 0
             ? criarControleStatus(indicacao, status)
             : document.createElement('div');
@@ -436,7 +434,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return artigo;
     }
 
-    // 4. Busca e exibe as indicações (com o filtro escolhido)
+
     async function carregarIndicacoes() {
 
         listaIndicacoes.replaceChildren();
@@ -486,7 +484,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // O filtro atualiza a lista assim que o status é trocado
+
     filtroStatus.addEventListener('change', carregarIndicacoes);
 
     // 5. Encerra a sessão
@@ -503,7 +501,7 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.replace('loginVereador.html');
     });
 
-    // Ordem: confirma o login antes de buscar qualquer dado
+
     async function iniciar() {
         const logado = await verificarSessaoVereador();
 

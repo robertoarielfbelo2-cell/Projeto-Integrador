@@ -132,7 +132,7 @@ if ($temArquivo) {
         exit;
     }
 
-    // Verifica o tipo real do arquivo
+
     $finfo = new finfo(FILEINFO_MIME_TYPE);
     $tipo = $finfo->file($arquivo["tmp_name"]);
 
@@ -156,7 +156,6 @@ if ($temArquivo) {
 
 require_once __DIR__ . "/conexao.php";
 
-// Confere se o vereador escolhido existe (o id pode ter sido alterado no navegador)
 if ($idVereador !== null) {
 
     $stmtVereador = $conn->prepare(
@@ -186,8 +185,6 @@ if ($idVereador !== null) {
 $caminhoFisico = null;
 
 try {
-
-    // 6. Inicia a transação
     $conn->begin_transaction();
 
     // 7. Cadastra a localização
@@ -218,8 +215,6 @@ try {
     );
 
     $stmtLocal->execute();
-
-    // Recupera o ID da localização criada
     $idLocalizacao = $conn->insert_id;
 
     $stmtLocal->close();
@@ -253,12 +248,10 @@ try {
                 "Não foi possível salvar o anexo."
             );
         }
-
-        // Caminho relativo ao diretório do projeto
         $caminhoAnexo = "uploads/indicacoes/" . $nomeArquivo;
     }
 
-    // 9. Busca o status inicial
+
     $nomeStatus = "Enviada";
 
     $sqlStatus = "
@@ -283,8 +276,6 @@ try {
     }
 
     $stmtStatus->close();
-
-    // 10. Cadastra a indicação
     $sqlIndicacao = "
         INSERT INTO indicacao (
             titulo,
@@ -300,8 +291,6 @@ try {
     ";
 
     $stmtIndicacao = $conn->prepare($sqlIndicacao);
-
-    // $idVereador pode ser null: o bind_param grava NULL no banco
     $stmtIndicacao->bind_param(
         "sssiiii",
         $titulo,
@@ -319,7 +308,6 @@ try {
 
     $stmtIndicacao->close();
 
-    // 11. Confirma a transação
     $conn->commit();
 
     http_response_code(201);
@@ -334,8 +322,6 @@ try {
 
     // Desfaz alterações no banco
     $conn->rollback();
-
-    // Remove o arquivo caso o cadastro tenha falhado
     if (
         $caminhoFisico !== null &&
         is_file($caminhoFisico)

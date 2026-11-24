@@ -13,16 +13,16 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// 2. Inicia a sessão
+
 session_start();
 
-// 3. Recebe os dados enviados pelo JavaScript
+
 $dados = json_decode(
     file_get_contents('php://input'),
     true
 );
 
-// Verifica se o JSON recebido é válido
+
 if (!is_array($dados)) {
     http_response_code(400);
 
@@ -61,7 +61,7 @@ require_once __DIR__ . '/conexao.php';
 
 try {
 
-    // 5. Busca o administrador pelo email
+
     $sql = "
         SELECT
             id_administrador,
@@ -86,7 +86,6 @@ try {
 
     $stmt->close();
 
-    // 6. Verifica se o administrador existe e a senha confere
         if (
             !$administrador ||
             $senha !== $administrador['senha']
@@ -101,10 +100,10 @@ try {
         exit;
     }
 
-    // 7. Renova o identificador da sessão
+
     session_regenerate_id(true);
 
-    // Remove eventual sessão de cidadão ou de vereador
+
     unset(
         $_SESSION['id_cidadao'],
         $_SESSION['cidadao_nome'],
@@ -114,7 +113,7 @@ try {
         $_SESSION['vereador_email']
     );
 
-    // 8. Cria a sessão administrativa
+  
     $_SESSION['id_administrador'] =
         (int) $administrador['id_administrador'];
 

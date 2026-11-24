@@ -3,8 +3,6 @@
 header("Content-Type: application/json; charset=UTF-8");
 
 session_start();
-
-// Apenas administradores podem cadastrar partidos
 if (
     !isset($_SESSION['id_administrador']) ||
     !is_numeric($_SESSION['id_administrador'])
@@ -19,7 +17,6 @@ if (
     exit;
 }
 
-// Aceita somente requisições POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Allow: POST");
     http_response_code(405);
@@ -35,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 require_once 'conexao.php';
 
 try {
-    // Recebe o JSON enviado pelo JavaScript
     $dados = json_decode(
         file_get_contents("php://input"),
         true,
@@ -48,8 +44,6 @@ try {
             "Os dados enviados são inválidos."
         );
     }
-
-    // Obtém os campos
     $nome = trim((string)($dados["nome"] ?? ''));
     $sigla = strtoupper(trim((string)($dados["sigla"] ?? '')));
     $numero = $dados["numero"] ?? null;
@@ -60,8 +54,6 @@ try {
             "Preencha todos os campos obrigatórios."
         );
     }
-
-    // Valida o tamanho do nome e da sigla
     if (
         mb_strlen($nome) > 100 ||
         mb_strlen($sigla) > 20
@@ -71,7 +63,6 @@ try {
         );
     }
 
-    // Valida o número do partido
     $numeroValidado = filter_var(
         $numero,
         FILTER_VALIDATE_INT,
@@ -86,8 +77,6 @@ try {
             "O número do partido deve estar entre 10 e 99."
         );
     }
-
-    // Verifica se o nome, a sigla ou o número já estão cadastrados
     $sqlVerificacao = "
         SELECT id_partido
         FROM partido

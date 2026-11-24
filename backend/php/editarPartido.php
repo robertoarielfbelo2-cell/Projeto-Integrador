@@ -3,8 +3,6 @@
 header("Content-Type: application/json; charset=UTF-8");
 
 session_start();
-
-// Apenas administradores podem editar partidos
 if (
     !isset($_SESSION['id_administrador']) ||
     !is_numeric($_SESSION['id_administrador'])
@@ -19,7 +17,6 @@ if (
     exit;
 }
 
-// Aceita somente requisições POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Allow: POST");
     http_response_code(405);
@@ -113,8 +110,6 @@ try {
         $conn->close();
         exit;
     }
-
-    // Nome, sigla e número não podem repetir os de OUTRO partido
     $stmtDuplicado = $conn->prepare("
         SELECT 1
         FROM partido

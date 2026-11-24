@@ -4,7 +4,7 @@ header('Content-Type: application/json; charset=UTF-8');
 
 session_start();
 
-// Informa se existe um vereador logado (usado pelo painel do vereador)
+
 if (isset($_SESSION['id_vereador'])) {
 
     echo json_encode([

@@ -4,7 +4,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 session_start();
 
-// Edita o registro de um vereador (RF09). Somente administradores.
+
 if (
     !isset($_SESSION['id_administrador']) ||
     !is_numeric($_SESSION['id_administrador'])
@@ -44,8 +44,6 @@ try {
     if (!is_array($dados)) {
         throw new InvalidArgumentException("JSON inválido.");
     }
-
-    // Mesmos campos do cadastro, mais o id do vereador
     $idVereador = filter_var(
         $dados["id"] ?? '',
         FILTER_VALIDATE_INT,
@@ -144,8 +142,6 @@ try {
         $conn->close();
         exit;
     }
-
-    // O partido escolhido precisa existir
     $stmtPartido = $conn->prepare(
         "SELECT 1 FROM partido WHERE id_partido = ? LIMIT 1"
     );
@@ -158,8 +154,6 @@ try {
     if (!$partidoExiste) {
         throw new InvalidArgumentException("O partido selecionado não existe.");
     }
-
-    // E-mail e senha de acesso não mudam aqui: são da tela Acesso dos Vereadores
     $stmt = $conn->prepare("
         UPDATE vereador
         SET

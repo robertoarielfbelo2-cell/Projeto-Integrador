@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <!-- Coloque isso dentro do body, perto do form -->
+    <div id="mensagem" style="color: red; margin-bottom: 10px;"></div>
+    <form id="formProjetoLei" method="POST">
+        <input type="text" name="tituloProjetoLei" placeholder="titulo" id="tituloProjetoLei">
+        <input type="textarea" placeholder="descrição" id="descricaoProjetoLei" name="descricaoProetoLei">
+        <input type="date" name="dataProjetoLei" id="dataProjetoLei" placeholder="data">
+        <input type="url" name="arquivo" id="arquivoProjetoLei" placeholder="arquivo">
+        <button type="submit">Enviar Projeto de Lei</button>
+    </form>
+    <script src="../js/scriptProjetoLei.js"></script>
+</body>
+
+</html>

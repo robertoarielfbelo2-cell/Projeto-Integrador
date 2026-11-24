@@ -4,8 +4,7 @@ header('Content-Type: application/json; charset=UTF-8');
 
 session_start();
 
-// Informa quem está logado neste navegador, para o cabeçalho de todas as páginas.
-// Os logins limpam a sessão dos outros perfis, então só um deles existe por vez.
+
 if (isset($_SESSION['id_administrador'])) {
 
     echo json_encode([

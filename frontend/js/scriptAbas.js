@@ -1,16 +1,4 @@
-// Abas reaproveitáveis.
-// Marcação esperada:
-//   <div role="tablist">
-//     <button role="tab" aria-controls="painel-a" data-hash="a">A</button> ...
-//   </div>
-//   <section id="painel-a" role="tabpanel"> ... </section>
-//
-// - Clicar numa aba mostra o painel dela e esconde os outros.
-// - Setas esquerda/direita, Home e End trocam de aba pelo teclado.
-// - A aba aberta fica no endereço (ex.: index.html#projetos): dá para
-//   mandar o link de uma aba e o botão Voltar do navegador funciona.
-// - Outros scripts sabem quando uma aba abriu pelo evento "abaAberta":
-//     painel.addEventListener('abaAberta', ...)
+
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -69,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return abas.find(function (aba) { return aba.dataset.hash === hash; });
         }
 
-        // Abre a aba indicada no endereço (#projetos) ou a que já vem marcada no HTML
         const marcada = abas.find(function (aba) { return aba.getAttribute('aria-selected') === 'true'; });
         abrir(abaDoEndereco() || marcada || abas[0], false);
 

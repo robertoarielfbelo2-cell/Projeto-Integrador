@@ -2,7 +2,7 @@
 
 header('Content-Type: application/json; charset=UTF-8');
 
-// 1. Permite apenas requisições POST
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
 
@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// 2. Verifica se o cidadão está logado
 session_start();
 
 if (!isset($_SESSION['id_cidadao'])) {
@@ -28,7 +27,6 @@ if (!isset($_SESSION['id_cidadao'])) {
 
 $idCidadao = (int) $_SESSION['id_cidadao'];
 
-// 3. Recebe os dados enviados pelo JavaScript
 $dados = json_decode(file_get_contents('php://input'), true);
 
 $idIndicacao = filter_var(
@@ -36,7 +34,6 @@ $idIndicacao = filter_var(
     FILTER_VALIDATE_INT
 );
 
-// Verifica se o ID é válido
 if ($idIndicacao === false || $idIndicacao === null || $idIndicacao <= 0) {
     http_response_code(400);
 
@@ -51,7 +48,6 @@ try {
 
     require_once __DIR__ . '/conexao.php';
 
-    // 4. Verifica se a indicação existe
     $sqlIndicacao = "
         SELECT id_indicacao
         FROM indicacao
@@ -80,7 +76,7 @@ try {
         exit;
     }
 
-    // 5. Verifica se o cidadão já apoiou
+
     $sqlVerificarApoio = "
         SELECT id_cidadao
         FROM apoio
@@ -116,7 +112,7 @@ try {
         exit;
     }
 
-    // 6. Registra o apoio
+
     $sqlApoio = "
         INSERT INTO apoio (
             id_cidadao,
@@ -136,7 +132,7 @@ try {
     $stmt->execute();
     $stmt->close();
 
-    // 7. Conta os apoios atualizados
+
     $sqlTotal = "
         SELECT COUNT(*) AS total
         FROM apoio
@@ -152,7 +148,7 @@ try {
 
     $stmt->close();
 
-    // 8. Retorna o resultado ao JavaScript
+
     http_response_code(201);
 
     echo json_encode([

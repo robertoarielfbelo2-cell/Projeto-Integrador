@@ -2,7 +2,7 @@
 
 header('Content-Type: application/json; charset=UTF-8');
 
-// Permite apenas requisições POST
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
 
@@ -13,13 +13,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// Recebe os dados enviados pelo JavaScript
+
 $dados = json_decode(file_get_contents('php://input'), true);
 
 $email = $dados['email'] ?? '';
 $senhaLogin = $dados['senha'] ?? '';
 
-// Verifica se os campos foram preenchidos
+
 if (
     !is_string($email) ||
     !is_string($senhaLogin) ||
@@ -40,7 +40,7 @@ $email = trim($email);
 try {
     require_once __DIR__ . '/conexao.php';
 
-    // Procura o cidadão pelo e-mail
+
     $sql = '
         SELECT
             id_cidadao,
@@ -65,7 +65,6 @@ try {
         $dataNascimento
     );
 
-    // Verifica se encontrou o cidadão
     if (!$stmt->fetch()) {
         http_response_code(401);
 

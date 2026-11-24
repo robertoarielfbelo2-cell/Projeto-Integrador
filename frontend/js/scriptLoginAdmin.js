@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         event.preventDefault();
 
-        // 1. Captura os dados digitados
+
         const email = document.getElementById('email').value.trim();
         const senha = document.getElementById('senha').value;
 
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         try {
 
-            // 2. Envia email e senha para o PHP
+
             const resposta = await fetch(
                 '../../backend/php/loginAdmin.php',
                 {
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             );
 
-            // 3. Recebe a resposta do PHP
+
             const resultado = await resposta.json();
 
             // 4. Verifica se o login foi autorizado
@@ -45,10 +45,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            // 5. Login realizado
+    
             mensagem.textContent = 'Login realizado com sucesso!';
 
-            // 6. Direciona para o painel administrativo
+  
             window.location.href = 'painelAdmin.html';
 
         } catch (erro) {

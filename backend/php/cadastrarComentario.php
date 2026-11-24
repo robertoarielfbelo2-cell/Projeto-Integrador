@@ -1,8 +1,6 @@
 <?php
 
 header('Content-Type: application/json; charset=UTF-8');
-
-// 1. Permite apenas POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
 
@@ -12,8 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     ]);
     exit;
 }
-
-// 2. Verifica se o cidadão está logado
 session_start();
 
 if (!isset($_SESSION['id_cidadao'])) {
@@ -26,10 +22,7 @@ if (!isset($_SESSION['id_cidadao'])) {
     exit;
 }
 
-// ID do cidadão vem da sessão
 $idCidadao = (int) $_SESSION['id_cidadao'];
-
-// 3. Recebe os dados enviados pelo JavaScript
 $dados = json_decode(
     file_get_contents('php://input'),
     true
@@ -42,7 +35,7 @@ $idIndicacao = filter_var(
 
 $texto = trim($dados['texto'] ?? '');
 
-// 4. Valida o ID da indicação
+
 if (
     $idIndicacao === false ||
     $idIndicacao === null ||
@@ -57,7 +50,7 @@ if (
     exit;
 }
 
-// 5. Valida o comentário
+
 if ($texto === '') {
     http_response_code(400);
 
@@ -82,7 +75,7 @@ require_once __DIR__ . '/conexao.php';
 
 try {
 
-    // 6. Verifica se a indicação existe
+
     $sqlVerificar = "
         SELECT id_indicacao
         FROM indicacao
@@ -112,7 +105,7 @@ try {
         exit;
     }
 
-    // 7. Insere o comentário no banco
+
     $sqlComentario = "
         INSERT INTO comentario (
             texto,
@@ -137,7 +130,6 @@ try {
 
     $stmt->close();
 
-    // 8. Retorna sucesso ao JavaScript
     http_response_code(201);
 
     echo json_encode([

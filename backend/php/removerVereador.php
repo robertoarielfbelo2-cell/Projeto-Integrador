@@ -4,9 +4,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 session_start();
 
-// Remove o registro de um vereador (RF09). Somente administradores.
-// Regra: só remove quem não tem indicações encaminhadas nem respostas publicadas,
-// para não apagar o histórico que os cidadãos já viram.
+
 if (
     !isset($_SESSION['id_administrador']) ||
     !is_numeric($_SESSION['id_administrador'])

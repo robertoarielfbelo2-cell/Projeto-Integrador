@@ -4,9 +4,7 @@ header('Content-Type: application/json; charset=UTF-8');
 
 session_start();
 
-// O vereador registra uma resposta pública em uma indicação encaminhada a ele (RF14).
 
-// 1. Exige um vereador logado
 if (!isset($_SESSION['id_vereador'])) {
     http_response_code(401);
 
@@ -29,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $idVereador = (int) $_SESSION['id_vereador'];
 
-// 2. Recebe e valida os dados
+
 $dados = json_decode(file_get_contents('php://input'), true);
 
 if (!is_array($dados)) {
@@ -114,8 +112,6 @@ try {
         ], JSON_UNESCAPED_UNICODE);
         exit;
     }
-
-    // 4. Grava a resposta
     $stmt = $conn->prepare(
         'INSERT INTO resposta_indicacao (texto, id_indicacao, id_vereador) VALUES (?, ?, ?)'
     );
@@ -125,8 +121,6 @@ try {
     $idResposta = $conn->insert_id;
 
     $stmt->close();
-
-    // 5. Devolve a resposta criada, para a tela exibi-la sem recarregar
     $stmtNova = $conn->prepare(
         'SELECT id_resposta, texto, data_resposta FROM resposta_indicacao WHERE id_resposta = ?'
     );

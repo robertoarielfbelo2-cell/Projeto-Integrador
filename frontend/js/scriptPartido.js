@@ -1,9 +1,7 @@
-// Esta página serve para cadastrar E para editar um partido.
-// Aberta como addPartido.html?id=5, ela entra no modo de edição do partido 5.
+
 const idPartidoEdicao = new URLSearchParams(window.location.search).get('id');
 const modoEdicao = idPartidoEdicao !== null;
 
-// No modo de edição: troca os textos da página e preenche o formulário
 async function prepararEdicao() {
     const mensagem = document.getElementById('mensagem');
     const form = document.getElementById('formPartido');
@@ -84,7 +82,6 @@ async function salvarPartido(event) {
         numero: numeroConvertido
     };
 
-    // Na edição, o PHP precisa saber qual partido alterar
     if (modoEdicao) {
         dadosPartido.id = Number(idPartidoEdicao);
     }
@@ -116,7 +113,7 @@ async function salvarPartido(event) {
         if (data.sucesso === true) {
             mensagem.textContent = data.mensagem;
 
-            // No cadastro, limpa para o próximo; na edição, mantém o que foi salvo
+
             if (!modoEdicao) {
                 form.reset();
             }
